@@ -115,6 +115,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 - [Easy Japanese](https://www.nhk.or.jp/lesson/english/index.html) - Made by NHK in multiple languages :baby:
 
 - [Erin's Challenge](https://www.erin.ne.jp/en/) - Video based Japanese lessons :man:
+- [GyanMirai](https://www.gyanmirai.com) - Free JLPT N1–N5 prep platform: kanji/grammar/vocabulary lists with practice tests, full-length timed mock tests for N1–N4, and 28 interactive Japanese learning tools (kana converters, verb/adjective conjugators, particle quiz, te-form drill, counter-words quiz with rendaku, furigana generator, kanji stroke-order viewer, study planner). Browser-only, no signup.
 - [LingoDeer](https://www.lingodeer.com/) - Japanese course on a new learning app similar to Duolingo, but made with a focus on East Asian languages. :iphone:
 - [NativShark](https://nativshark.com/) - All in one Japanese learning platform, combining vocab, grammar, kanji and speaking practice. :moneybag:
 - [NHK 高校講座 / NHK High School Course](https://www.nhk.or.jp/kokokoza/) - Video or audio of high school course made by NHK. Easy to study the basic glossaries of different fields. :man:
@@ -172,7 +173,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 - [jpdb](https://jpdb.io/) - jpdb is a powerful Japanese dictionary and all-in-one learning system for kanji and vocabulary.
 - [Japanese Number Converter](https://japanesenumberconverter.com) - Japanese number converter (Kanji - Hiragana - Romaji)
 - [SakeSaySo](https://sakesayso.com/) - A Japanese-English dictionary app featuring SRS flashcards, daily news translations for sentence-based learning, vocabulary inspection, and example sentences. Supports offline use. :iphone:
-- [Japanese Drop](https://japanesedrop.com/learn) - Free reference guides covering greetings, phrases, numbers, honorifics, particles, and more, with word breakdowns, cultural context, and audio. Also offers a free daily Japanese lesson newsletter. :baby: 
+- [Japanese Drop](https://japanesedrop.com/learn) - Free reference guides covering greetings, phrases, numbers, honorifics, particles, and more, with word breakdowns, cultural context, and audio. Also offers a free daily Japanese lesson newsletter. :baby:
 - [hifumi](https://vitto4.github.io/hifumi/) - A flashcards companion app tailored for Minna no Nihongo Shokyū I & II textbooks ([sources](https://github.com/vitto4/hifumi)). :iphone: :computer:
 
 ## Grammar
