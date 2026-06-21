@@ -18,61 +18,106 @@ function isValidChannel(channel) {
 }
 
 // --- YouTube IFrame Player API ---------------------------------------------
+// A channel's uploads playlist (UC... -> UU...) CANNOT be swapped reliably at
+// runtime via loadPlaylist()/cuePlaylist() — those silently no-op on uploads
+// playlists. Construction-time playlists ARE reliable, so we (re)create the
+// player per channel with the playlist in playerVars. loadVideoById() IS
+// reliable, so it serves as the exact-resume fallback when a channel has posted
+// a newer video since the saved position.
+let apiReady = false;
 let ytPlayer = null;
-let ytReady = false;
 let channelsReady = false;
 let initDone = false;
-let pendingInit = null;   // {channel, chip, autoplay} chosen before the player was ready
-let defaultPick = null;   // {channel, chip} default selection from render()
+let pendingInit = null;          // {channel, chip, autoplay} picked before the API loaded
+let defaultPick = null;          // {channel, chip} default selection from render()
 let activeChannelId = null;
+let saveTimer = null;
+const channelById = {};
+const chipById = {};
 
 function ytList(channelId) { return "UU" + channelId.slice(2); }
 
 // YouTube calls this global when the IFrame API has loaded.
 window.onYouTubeIframeAPIReady = function () {
+  apiReady = true;
+  flushPending();
+  maybeInit();
+};
+
+// A pick made before the API finished loading wins over the default/restore.
+function flushPending() {
+  if (!pendingInit || !apiReady) return;
+  const p = pendingInit; pendingInit = null;
+  initDone = true;
+  mountChannel(p.channel, p.autoplay);
+}
+
+function maybeInit() {
+  if (!apiReady || !channelsReady || initDone) return;
+  // Fresh load: restore the last-watched channel cued/paused at its saved spot;
+  // otherwise default to the first live channel (latest), also cued.
+  const lastId = window.Resume.lastChannelId();
+  const restore = lastId && channelById[lastId];
+  if (restore) {
+    initDone = true;
+    selectChip(restore, chipById[lastId]);
+    mountChannel(restore, false);
+  } else if (defaultPick) {
+    initDone = true;
+    selectChip(defaultPick.channel, defaultPick.chip);
+    mountChannel(defaultPick.channel, false);
+  }
+}
+
+// (Re)create the player for a channel. autoplay=true plays (user gesture);
+// false cues (paused). Resumes the saved video + time when one is stored.
+function mountChannel(channel, autoplay) {
+  activeChannelId = channel.youtubeChannelId;
+  if (saveTimer) { clearInterval(saveTimer); saveTimer = null; }
+
+  const saved = window.Resume.get(channel.youtubeChannelId);
+  const vars = {
+    listType: "playlist",
+    list: ytList(channel.youtubeChannelId),
+    index: 0,
+    autoplay: autoplay ? 1 : 0,
+    playsinline: 1,
+    rel: 0,
+    origin: window.location.origin,
+  };
+  if (saved) vars.start = saved.seconds; // resume time on the first (newest) upload
+
+  try { if (ytPlayer) ytPlayer.destroy(); } catch (e) { /* ignore */ }
+  // Reset the player slot with safe DOM methods (no innerHTML).
+  const frame = document.querySelector(".player-frame");
+  frame.replaceChildren();
+  const slot = document.createElement("div");
+  slot.id = "player";
+  frame.appendChild(slot);
   ytPlayer = new YT.Player("player", {
     host: "https://www.youtube.com",
-    playerVars: { playsinline: 1, rel: 0, origin: window.location.origin },
+    playerVars: vars,
     events: {
-      onReady: function () { ytReady = true; flushPending(); maybeInit(); },
+      onReady: function () {
+        // If the newest upload is no longer the saved video (a new one was
+        // posted), resume the exact saved video instead — loadVideoById works
+        // where loadPlaylist does not.
+        if (!saved) return;
+        try {
+          const vid = ytPlayer.getVideoData().video_id;
+          if (vid && vid !== saved.videoId) {
+            if (autoplay) ytPlayer.loadVideoById({ videoId: saved.videoId, startSeconds: saved.seconds });
+            else ytPlayer.cueVideoById({ videoId: saved.videoId, startSeconds: saved.seconds });
+          }
+        } catch (e) { /* ignore */ }
+      },
       onStateChange: onPlayerStateChange,
     },
   });
-};
-
-// If the user clicked a channel before the API finished loading, that pick wins
-// over the default/restore init.
-function flushPending() {
-  if (!pendingInit || !ytReady) return;
-  const p = pendingInit; pendingInit = null;
-  initDone = true;
-  startChannel(p.channel, p.autoplay);
 }
-
-// Poll getPlaylist() until the playlist window is populated (no dedicated event).
-function whenPlaylistReady(cb) {
-  let tries = 0;
-  (function check() {
-    let list = null;
-    try { list = ytPlayer.getPlaylist(); } catch (e) {}
-    if (list && list.length) return cb(list);
-    if (tries++ < 25) setTimeout(check, 100); // ~2.5s budget
-  })();
-}
-
-// autoplay=true → load & play (user gesture). false → cue (paused).
-// NOTE: this parity version is REPLACED by the resume-aware version in Task 4.
-function startChannel(channel, autoplay) {
-  activeChannelId = channel.youtubeChannelId;
-  const opts = { list: ytList(channel.youtubeChannelId), listType: "playlist", index: 0 };
-  if (autoplay) ytPlayer.loadPlaylist(opts);
-  else ytPlayer.cuePlaylist(opts);
-}
-
-let saveTimer = null;
 
 function saveCurrent() {
-  if (!activeChannelId || !ytReady) return;
+  if (!activeChannelId || !ytPlayer) return;
   try {
     const vd = ytPlayer.getVideoData();
     const t = ytPlayer.getCurrentTime();
@@ -94,18 +139,16 @@ document.addEventListener("visibilitychange", function () {
 });
 window.addEventListener("pagehide", saveCurrent);
 
-function maybeInit() {
-  if (!ytReady || !channelsReady || initDone || !defaultPick) return;
-  initDone = true;
-  play(defaultPick.channel, defaultPick.chip, false); // cue default (paused), like today
-}
-
-function play(channel, chipEl, autoplay) {
-  npMode.textContent = "⏭ Latest";
+function selectChip(channel, chipEl) {
+  npMode.textContent = window.Resume.get(channel.youtubeChannelId) ? "⏮ Resumed" : "⏭ Latest";
   npName.textContent = channel.name;
   if (selectedChip) selectedChip.classList.remove("selected");
   if (chipEl) { chipEl.classList.add("selected"); selectedChip = chipEl; }
-  if (ytReady) startChannel(channel, autoplay);
+}
+
+function play(channel, chipEl, autoplay) {
+  selectChip(channel, chipEl);
+  if (apiReady) { initDone = true; mountChannel(channel, autoplay); }
   else pendingInit = { channel: channel, chip: chipEl, autoplay: autoplay };
 }
 
@@ -172,6 +215,8 @@ function render(channels) {
     const chips = document.createElement("div"); chips.className = "chips";
     for (const ch of groups[key]) {
       const chip = makeChip(ch);
+      channelById[ch.youtubeChannelId] = ch;
+      chipById[ch.youtubeChannelId] = chip;
       if (!firstChip) { firstChip = chip; firstChannel = ch; }
       if (!firstLiveChip && ch.hasLive) { firstLiveChip = chip; firstLiveChannel = ch; }
       chips.appendChild(chip);
@@ -181,8 +226,8 @@ function render(channels) {
   }
 
   // First load: default to a channel that runs live (its uploads are reliably
-  // embeddable worldwide), else the first valid channel. The actual cue/play is
-  // deferred to maybeInit() so it waits for the IFrame player to be ready.
+  // embeddable worldwide), else the first valid channel. The actual cue is
+  // deferred to maybeInit() so it waits for the IFrame player API to be ready.
   channelsReady = true;
   defaultPick = firstLiveChannel
     ? { channel: firstLiveChannel, chip: firstLiveChip }
