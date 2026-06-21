@@ -39,6 +39,15 @@ test("buildSchedule shapes schedule.json", () => {
   assert.deepStrictEqual(c.items[1], { videoId: "v2", title: "Two", duration: 120, blocked: ["US"], allowed: [] });
 });
 
+test("buildSchedule drops non-embeddable videos (status.embeddable === false)", () => {
+  const out = buildSchedule([{ channelId: "UCe", name: "E", videos: [
+    { videoId: "ok", title: "ok", isoDuration: "PT2M", embeddable: true },
+    { videoId: "no", title: "no", isoDuration: "PT2M", embeddable: false },
+    { videoId: "unknown", title: "u", isoDuration: "PT2M" }, // undefined -> kept (fail-open)
+  ]}], 1700000000, 1);
+  assert.deepStrictEqual(out.channels["UCe"].items.map((i) => i.videoId), ["ok", "unknown"]);
+});
+
 test("buildSchedule drops zero-duration items", () => {
   const out = buildSchedule([{ channelId: "UCz", name: "Z", videos: [
     { videoId: "good", title: "g", isoDuration: "PT30S" },

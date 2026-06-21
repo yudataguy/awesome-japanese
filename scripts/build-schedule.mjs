@@ -6,6 +6,7 @@ export function buildSchedule(channelsData, epoch, generatedAt) {
   for (const ch of channelsData) {
     const items = [];
     for (const v of ch.videos) {
+      if (v.embeddable === false) continue; // owner disabled embedding (YT error 150)
       const duration = parseDuration(v.isoDuration);
       if (duration <= 0) continue; // unusable (live/upcoming/0) -> skip
       const rr = v.regionRestriction || {};
@@ -26,13 +27,16 @@ export function buildSchedule(channelsData, epoch, generatedAt) {
 
 const EPOCH = 1700000000; // FIXED — never change; keeps the shared clock continuous.
 const MAX_ITEMS = 40;     // recent uploads per channel (window)
+// Embeddable news channels. The "main" broadcaster channels (NHK, 日テレ公式,
+// TBS公式, フジ, テレ東) DISABLE embedded playback (YouTube error 150), so they
+// can't be used here; these news channels allow embedding. status.embeddable is
+// still checked per video below as a safety net.
 const CHANNELS = [
-  { channelId: "UCip8ve30-AoX2y2OtAAmqFA", name: "NHK (Japanese)" },
-  { channelId: "UCkLqBWFde2ZJZfqojgpDqyA", name: "日テレ公式チャンネル" },
-  { channelId: "UCxpIo6FFB7gMQz2Fy2X8XdQ", name: "TBS公式 YouTuboo" },
-  { channelId: "UC7_mFzmj89tqAqgpl5695QQ", name: "フジテレビ公式" },
-  { channelId: "UCrEU0b3lpZyrFh7VImwWkxA", name: "tvasahi (テレビ朝日)" },
-  { channelId: "UCrDj5t8Q9ZFSGft7a3PWl9g", name: "テレ東公式 TV TOKYO" },
+  { channelId: "UCGCZAYq5Xxojl_tSXcVJhiQ", name: "ANN News (TV Asahi)" },
+  { channelId: "UC6AG81pAkf6Lbi_1VC5NmPA", name: "TBS NEWS DIG" },
+  { channelId: "UCuTAXTexrhetbOe3zgskJBQ", name: "日テレNEWS" },
+  { channelId: "UCoQBJMzcwmXrRSHBFAlTsIw", name: "FNNプライムオンライン" },
+  { channelId: "UCNsidkYpIAQ4QaufptQBPHQ", name: "ウェザーニュース" },
 ];
 const API = "https://www.googleapis.com/youtube/v3";
 const SHORTS_DURATION_MAX = 180; // only videos this short can be Shorts; skip the check for longer ones
@@ -51,18 +55,19 @@ async function uploadIds(channelId, key) {
   return (d.items || []).map((i) => i.contentDetails.videoId);
 }
 
-// title + duration + regionRestriction for up to 50 ids per call.
+// title + duration + regionRestriction + embeddable for up to 50 ids per call.
 async function videoDetails(ids, key) {
   const out = {};
   for (let i = 0; i < ids.length; i += 50) {
     const batch = ids.slice(i, i + 50).join(",");
-    const url = `${API}/videos?part=snippet,contentDetails&id=${batch}&key=${key}`;
+    const url = `${API}/videos?part=snippet,contentDetails,status&id=${batch}&key=${key}`;
     const d = await getJson(url);
     for (const v of d.items || []) {
       out[v.id] = {
         title: v.snippet?.title || "",
         isoDuration: v.contentDetails?.duration || "",
         regionRestriction: v.contentDetails?.regionRestriction,
+        embeddable: v.status?.embeddable,
       };
     }
   }

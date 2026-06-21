@@ -8,6 +8,8 @@ let schedule = null;          // parsed schedule.json
 let activeChannelId = null;
 let selectedChip = null;
 let pendingTune = null;       // channelId picked before the API was ready
+let currentIndex = -1;        // index of the item the player is on (for error skipping)
+let errorStreak = 0;          // consecutive load errors, to avoid infinite skip loops
 
 const npName = document.getElementById("np-name");
 const npMode = document.getElementById("np-mode");
@@ -29,20 +31,22 @@ window.onYouTubeIframeAPIReady = function () {
 };
 
 function onStateChange(e) {
+  if (e.data === YT.PlayerState.PLAYING) errorStreak = 0; // a real play clears the streak
   if (e.data === YT.PlayerState.ENDED && activeChannelId) tune(activeChannelId, true); // advance to live program
 }
 
-// A dead/private/unembeddable video fires onError (not ENDED). Don't re-tune to
-// the same live program (it would reload the same broken id) — skip to the next
-// scheduled item from 0. When that ends, ENDED -> tune() re-syncs to the clock.
+// A dead/private/unembeddable video fires onError (not ENDED). Walk forward
+// through the schedule from the item we're actually on (currentIndex), one step
+// per error, until something plays. Give up after a full lap so a channel whose
+// items are all unplayable doesn't loop forever.
 function onError() {
-  if (!activeChannelId) return;
+  if (!activeChannelId || !ytPlayer) return;
   const ch = schedule.channels[activeChannelId];
-  if (!ch) return;
-  const prog = globalThis.ScheduleLib.currentProgram(ch, schedule.epoch, nowSeconds());
-  if (!prog) return;
-  const next = ch.items[(prog.index + 1) % ch.items.length];
-  ytPlayer.loadVideoById({ videoId: next.videoId, startSeconds: 0 });
+  if (!ch || !ch.items.length) return;
+  errorStreak++;
+  if (errorStreak > ch.items.length) { npMode.textContent = "⚠ Unavailable"; return; }
+  currentIndex = (currentIndex + 1) % ch.items.length;
+  ytPlayer.loadVideoById({ videoId: ch.items[currentIndex].videoId, startSeconds: 0 });
 }
 
 // Load whatever is "on now" for a channel and seek to the live offset.
@@ -55,6 +59,8 @@ function tune(channelId, autoplay) {
   const prog = globalThis.ScheduleLib.currentProgram(ch, schedule.epoch, nowSeconds());
   if (!prog) return;
   if (!apiReady) { pendingTune = channelId; return; }
+  currentIndex = prog.index;
+  errorStreak = 0;
   const opts = { videoId: prog.videoId, startSeconds: prog.offset };
   if (autoplay) ytPlayer.loadVideoById(opts); else ytPlayer.cueVideoById(opts);
 }
