@@ -150,6 +150,27 @@ body {
 .set-check { display: flex; align-items: center; gap: 10px; font-size: 13px; margin: 10px 0; cursor: pointer; }
 .set-check input { width: 16px; height: 16px; accent-color: var(--accent); }
 
+/* ---- Mobile: stack info under a full-width video, smaller text, trim status bar ---- */
+@media (max-width: 760px) {
+  .app { grid-template-rows: auto auto minmax(0, 1fr) auto; }
+  .app.guide-hidden { grid-template-rows: 1fr auto 0 auto; }
+  .top { grid-template-columns: 1fr; }              /* video on top, info below */
+  .info { border-left: 0; border-top: 1px solid var(--line); padding: 12px 14px; max-height: 30vh; }
+  .info-head { margin-bottom: 8px; }
+  .info-avatar { width: 36px; height: 36px; }
+  .info-name { font-size: .9rem; }
+  .info-title { font-size: .82rem; margin: 5px 0 8px; }
+  .info-meta { font-size: .72rem; }
+  .info-next { font-size: .7rem; margin-top: 8px; padding-top: 8px; }
+  .info-learn { padding-top: 10px; }
+  .info-learn-h { font-size: .64rem; }
+  .info-learn a { font-size: .8rem; }
+  .share-btn { padding: 5px 11px; font-size: .74rem; }
+  .statusbar { justify-content: flex-end; }
+  .sb-left { display: none; }                       /* drop the jumbled left side */
+  .tv-search { max-width: 150px; }
+}
+
 .error { margin: 16px; padding: 14px 16px; border: 1px solid #5a2b2b;
   background: #2a1414; border-radius: 10px; color: #ffb4b4; }
 .error a { color: #ffd; }
