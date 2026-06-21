@@ -93,6 +93,7 @@
       for (const id of ids) {
         const ch = sched.channels[id];
         const col = el("epg-col"); col.style.width = COL_W + "px"; col.dataset.id = id; col.dataset.name = (ch.name || "").toLowerCase();
+        col.dataset.region = globalThis.RegionSearch ? globalThis.RegionSearch.haystack(ch.group) : "";
 
         // region filter: hide column if current program not viewable
         if (hideRegion && cc) {
@@ -173,7 +174,7 @@
     const lib = globalThis.IconLib;
     if (!lastContainer) return;
     lastContainer.querySelectorAll(".epg-col").forEach((col) => {
-      let match = lib.matches(query, col.dataset.name);
+      let match = lib.matches(query, col.dataset.name) || lib.matches(query, col.dataset.region);
       col.querySelectorAll(".epg-prog").forEach((b) => {
         const hit = !!query && lib.matches(query, b.dataset.title);
         b.classList.toggle("match", hit);
