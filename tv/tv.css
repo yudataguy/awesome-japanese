@@ -26,6 +26,7 @@ main { max-width: 1000px; margin: 0 auto; padding: 16px; }
 .rail { display: grid; gap: 14px; margin-top: 18px; }
 .rail-group h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em;
   color: var(--muted); margin: 0 0 8px; }
+.rail-group h2 .ja { margin-left: 8px; color: var(--text); text-transform: none; letter-spacing: 0; }
 /* Station-icon grid: full-colour when active, greyed otherwise, lights up on hover. */
 .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, 44px); gap: 12px; }
 .sicon { width: 44px; height: 44px; border-radius: 50%; padding: 0; border: 0; cursor: pointer;

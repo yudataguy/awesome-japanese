@@ -11,6 +11,11 @@ let currentIndex = -1;        // index of the item the player is on (for error s
 let errorStreak = 0;          // consecutive load errors, to avoid infinite skip loops
 
 const GROUP_ORDER = ["National", "BS / Satellite", "Hokkaido", "Tohoku", "Kanto", "Chubu", "Kansai", "Chugoku", "Shikoku", "Kyushu-Okinawa"];
+const GROUP_LABELS_JA = {
+  "National": "全国", "BS / Satellite": "BS・衛星", "Hokkaido": "北海道",
+  "Tohoku": "東北", "Kanto": "関東", "Chubu": "中部", "Kansai": "関西",
+  "Chugoku": "中国", "Shikoku": "四国", "Kyushu-Okinawa": "九州・沖縄", "Other": "その他",
+};
 let activeIconEl = null;      // the currently-selected icon element
 let activeName = "";          // active channel name (restored after hover)
 
@@ -118,6 +123,8 @@ function render() {
     const section = document.createElement("div");
     section.className = "rail-group";
     const h = document.createElement("h2"); h.textContent = key;
+    const ja = GROUP_LABELS_JA[key];
+    if (ja) { const s = document.createElement("span"); s.className = "ja"; s.textContent = ja; h.append(" ", s); }
     const grid = document.createElement("div"); grid.className = "icon-grid";
     for (const id of groups[key]) {
       const el = iconEl(id, schedule.channels[id]);
