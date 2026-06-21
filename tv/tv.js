@@ -1,63 +1,73 @@
-// Simulated-live TV: each channel plays a clock-anchored schedule of its
-// uploads (schedule.json, generated server-side). "What's on now" is computed
-// from a fixed epoch + the wall clock; tuning in seeks to that live offset.
+// Unified TV app: clock-anchored simulated-live playback in a full-viewport
+// shell (video + info + EPG rows + status bar). "What's on now" comes from a
+// fixed epoch + the wall clock; tuning seeks to that live offset.
 
 let apiReady = false;
 let ytPlayer = null;
 let schedule = null;          // parsed schedule.json
 let activeChannelId = null;
 let pendingTune = null;       // channelId picked before the API was ready
-let currentIndex = -1;        // index of the item the player is on (for error skipping)
-let errorStreak = 0;          // consecutive load errors, to avoid infinite skip loops
+let currentIndex = -1;        // index of the item the player is on (error skipping)
+let errorStreak = 0;          // consecutive load errors, to bound the skip loop
 
 const GROUP_ORDER = ["National", "BS / Satellite", "Hokkaido", "Tohoku", "Kanto", "Chubu", "Kansai", "Chugoku", "Shikoku", "Kyushu-Okinawa"];
 const GROUP_LABELS_JA = {
   "National": "全国", "BS / Satellite": "BS・衛星", "Hokkaido": "北海道",
-  "Tohoku": "東北", "Kanto": "関東", "Chubu": "中部", "Kansai": "関西",
+  "Tohoku": "東北", "Kanto": "関東", "Kansai": "関西", "Chubu": "中部",
   "Chugoku": "中国", "Shikoku": "四国", "Kyushu-Okinawa": "九州・沖縄", "Other": "その他",
 };
-let activeIconEl = null;      // the currently-selected icon element
-let activeName = "";          // active channel name (restored after hover)
-let epgTimer = null;          // re-render timer while the Guide view is open
-let viewsWired = false;
+const INFO_WINDOW = 3 * 3600;
+
+let order = [];               // channel ids in display order (region groups)
+let chNo = {};                // channelId -> 1-based number (stable, pre-filter)
 let query = "";               // current search query (lowercased)
 
-const npName = document.getElementById("np-name");
-const npMode = document.getElementById("np-mode");
-const rail = document.getElementById("rail");
+const infoEl = document.getElementById("info");
 const errorBox = document.getElementById("error");
 
 function nowSeconds() { return Math.floor(Date.now() / 1000); }
+function hhmm(sec) {
+  const d = new Date(sec * 1000);
+  return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+}
+function el(cls) { const d = document.createElement("div"); d.className = cls; return d; }
 
-window.onYouTubeIframeAPIReady = function () {
+window.onYouTubeIframeAPIReady = function () { createPlayer(); };
+
+function createPlayer() {
+  const controls = window.Settings.store.read().controls ? 1 : 0;
   ytPlayer = new YT.Player("player", {
     host: "https://www.youtube.com",
-    playerVars: { playsinline: 1, rel: 0, origin: window.location.origin },
+    playerVars: { playsinline: 1, rel: 0, controls: controls, origin: window.location.origin },
     events: {
       onReady: function () { apiReady = true; if (pendingTune) { const c = pendingTune; pendingTune = null; tune(c, true); } },
       onStateChange: onStateChange,
       onError: onError,
     },
   });
-};
-
-function onStateChange(e) {
-  if (e.data === YT.PlayerState.PLAYING) errorStreak = 0; // a real play clears the streak
-  if (e.data === YT.PlayerState.ENDED && activeChannelId) tune(activeChannelId, true); // advance to live program
 }
 
-// A dead/private/unembeddable video fires onError (not ENDED). Walk forward
-// through the schedule from the item we're actually on (currentIndex), one step
-// per error, until something plays. Give up after a full lap so a channel whose
-// items are all unplayable doesn't loop forever.
+function onStateChange(e) {
+  if (e.data === YT.PlayerState.PLAYING) errorStreak = 0;
+  if (e.data === YT.PlayerState.ENDED && activeChannelId) tune(activeChannelId, true);
+}
+
+// A dead/private/unembeddable video fires onError (not ENDED). Walk forward from
+// the item we're on, one step per error, until something plays; give up after a
+// full lap so an all-unplayable channel doesn't loop forever.
 function onError() {
   if (!activeChannelId || !ytPlayer) return;
   const ch = schedule.channels[activeChannelId];
   if (!ch || !ch.items.length) return;
   errorStreak++;
-  if (errorStreak > ch.items.length) { npMode.textContent = "⚠ Unavailable"; return; }
+  if (errorStreak > ch.items.length) { setMode("⚠ Unavailable"); return; }
   currentIndex = (currentIndex + 1) % ch.items.length;
   ytPlayer.loadVideoById({ videoId: ch.items[currentIndex].videoId, startSeconds: 0 });
+}
+
+function setMode(text) {
+  const m = infoEl.querySelector(".info-mode");
+  if (m) m.textContent = text;
 }
 
 // Load whatever is "on now" for a channel and seek to the live offset.
@@ -65,8 +75,8 @@ function tune(channelId, autoplay) {
   const ch = schedule.channels[channelId];
   if (!ch) return;
   activeChannelId = channelId;
-  npName.textContent = ch.name;
-  npMode.textContent = "● Live";
+  updateInfo(channelId);
+  highlightActiveRow(channelId);
   const prog = globalThis.ScheduleLib.currentProgram(ch, schedule.epoch, nowSeconds());
   if (!prog) return;
   if (!apiReady) { pendingTune = channelId; return; }
@@ -76,137 +86,87 @@ function tune(channelId, autoplay) {
   if (autoplay) ytPlayer.loadVideoById(opts); else ytPlayer.cueVideoById(opts);
 }
 
-function selectIcon(channelId, el) {
-  if (activeIconEl) activeIconEl.classList.remove("on");
-  if (el) { el.classList.add("on"); activeIconEl = el; }
-  activeName = (schedule.channels[channelId] || {}).name || "";
-}
+// Fill the top-right info panel for a channel (current program + next).
+function updateInfo(channelId) {
+  const ch = schedule.channels[channelId];
+  if (!ch) return;
+  const now = nowSeconds();
+  const progs = globalThis.ScheduleLib.programsInWindow(ch, schedule.epoch, now, INFO_WINDOW);
+  const cur = progs[0], next = progs[1];
 
-function applyInitials(btn, name) {
-  const lib = globalThis.IconLib;
-  btn.classList.add("initials");
-  btn.style.setProperty("--hue", lib.hueFromString(name));
-  btn.textContent = lib.initials(name);
-}
-
-function iconEl(channelId, ch) {
-  const btn = document.createElement("button");
-  btn.className = "sicon";
-  btn.type = "button";
-  btn.title = ch.name;
-  btn.setAttribute("aria-label", "Tune in to " + ch.name);
-  btn.dataset.name = (ch.name || "").toLowerCase();
+  infoEl.replaceChildren();
+  const head = el("info-head");
   if (ch.icon) {
-    const img = document.createElement("img");
-    img.src = ch.icon; img.alt = ""; img.loading = "lazy";
-    img.addEventListener("error", () => { img.remove(); applyInitials(btn, ch.name); });
-    btn.appendChild(img);
-  } else {
-    applyInitials(btn, ch.name);
+    const img = document.createElement("img"); img.className = "info-avatar"; img.src = ch.icon; img.alt = "";
+    img.addEventListener("error", () => img.remove());
+    head.appendChild(img);
   }
-  btn.addEventListener("click", () => { selectIcon(channelId, btn); tune(channelId, true); });
-  btn.addEventListener("mouseenter", () => { npName.textContent = ch.name; });
-  btn.addEventListener("mouseleave", () => { npName.textContent = activeName; });
-  btn.addEventListener("focus", () => { npName.textContent = ch.name; });
-  btn.addEventListener("blur", () => { npName.textContent = activeName; });
-  return btn;
+  const mode = el("info-mode"); mode.textContent = "● Live"; head.appendChild(mode);
+
+  const name = el("info-name"); name.textContent = ch.name;
+  const title = el("info-title"); title.textContent = cur ? "「" + cur.title + "」" : "—";
+  const meta = el("info-meta");
+  const range = cur ? hhmm(cur.start) + " – " + hhmm(cur.end) : "";
+  meta.textContent = range + "　・　Ch " + (chNo[channelId] || "?") + "　・　" + (ch.group || "");
+  infoEl.append(head, name, title, meta);
+  if (next) { const n = el("info-next"); n.textContent = "NEXT 次 →　" + next.title; infoEl.appendChild(n); }
 }
 
-function render() {
+// Build channel display order (region groups) and assign stable 1-based numbers.
+function buildOrder() {
   const ids = Object.keys(schedule.channels);
-  if (!ids.length) { showError(); return; }
   const groups = {};
   for (const id of ids) {
     const g = schedule.channels[id].group;
     const key = GROUP_ORDER.includes(g) ? g : "Other";
     (groups[key] ||= []).push(id);
   }
-  const order = [...GROUP_ORDER.filter((g) => groups[g]), ...(groups["Other"] ? ["Other"] : [])];
-  let firstId = null, firstEl = null;
-  for (const key of order) {
-    const section = document.createElement("div");
-    section.className = "rail-group";
-    const h = document.createElement("h2"); h.textContent = key;
-    const ja = GROUP_LABELS_JA[key];
-    if (ja) { const s = document.createElement("span"); s.className = "ja"; s.textContent = ja; h.append(" ", s); }
-    const grid = document.createElement("div"); grid.className = "icon-grid";
-    for (const id of groups[key]) {
-      const el = iconEl(id, schedule.channels[id]);
-      if (!firstId) { firstId = id; firstEl = el; }
-      grid.appendChild(el);
-    }
-    section.append(h, grid);
-    rail.appendChild(section);
-  }
-  // Auto-tune the first channel, cued (no autoplay until a click).
-  selectIcon(firstId, firstEl);
-  tune(firstId, false);
-  wireViews();
+  const keys = [...GROUP_ORDER.filter((g) => groups[g]), ...(groups["Other"] ? ["Other"] : [])];
+  order = [];
+  for (const k of keys) for (const id of groups[k]) order.push(id);
+  chNo = {};
+  order.forEach((id, i) => { chNo[id] = i + 1; });
 }
 
-// Shared API for epg.js (tune the player, read the schedule, region metadata).
+function highlightActiveRow(channelId) {
+  const epg = document.getElementById("epg");
+  if (!epg) return;
+  epg.querySelectorAll(".epg-row.on").forEach((r) => r.classList.remove("on"));
+  const row = epg.querySelector('.epg-row[data-id="' + channelId + '"]');
+  if (row) row.classList.add("on");
+}
+
+// Shared API for epg.js.
 function getSchedule() { return schedule; }
-window.TVApp = { tune, getSchedule, GROUP_ORDER, GROUP_LABELS_JA };
-
-// Channels / Guide(番組表) toggle: swaps the area below the player; the player
-// iframe is never touched. The Guide re-renders every 60s while visible.
-// Filter/render whichever view is currently active for the live query.
-function applyFilter() {
-  const epgBox = document.getElementById("epg");
-  if (epgBox && !epgBox.hidden) { if (window.EPG) window.EPG.render(epgBox, query); }
-  else filterChannels(query);
-}
-
-// Channels view: toggle .sicon visibility by channel name (no re-render, so the
-// player/selection are untouched); hide empty region groups; show #tv-empty.
-function filterChannels(q) {
-  const lib = globalThis.IconLib;
-  let anyVisible = false;
-  rail.querySelectorAll(".rail-group").forEach((sec) => {
-    let visible = 0;
-    sec.querySelectorAll(".sicon").forEach((b) => {
-      const show = lib.matches(q, b.dataset.name);
-      b.hidden = !show;
-      if (show) visible++;
-    });
-    sec.hidden = visible === 0;
-    if (visible) anyVisible = true;
-  });
-  const empty = document.getElementById("tv-empty");
-  if (empty) empty.hidden = !(q && !anyVisible);
-}
-
-function wireViews() {
-  if (viewsWired) return; viewsWired = true;
-  const railBtn = document.getElementById("view-channels");
-  const guideBtn = document.getElementById("view-guide");
-  const epgBox = document.getElementById("epg");
-  const search = document.getElementById("tv-search");
-  if (!railBtn || !guideBtn || !epgBox) return;
-  function show(guide) {
-    rail.hidden = guide; epgBox.hidden = !guide;
-    railBtn.classList.toggle("on", !guide); guideBtn.classList.toggle("on", guide);
-    const empty = document.getElementById("tv-empty");
-    if (empty && guide) empty.hidden = true; // Channels-only note
-    if (epgTimer) { clearInterval(epgTimer); epgTimer = null; }
-    applyFilter();                            // render/filter the now-active view
-    if (guide) epgTimer = setInterval(() => { if (!epgBox.hidden) applyFilter(); }, 60000);
-  }
-  railBtn.addEventListener("click", () => show(false));
-  guideBtn.addEventListener("click", () => show(true));
-  if (search) search.addEventListener("input", () => { query = search.value.trim().toLowerCase(); applyFilter(); });
-}
+window.TVApp = {
+  tune, getSchedule, GROUP_ORDER, GROUP_LABELS_JA,
+  get order() { return order; }, get chNo() { return chNo; },
+  getCountry: () => window.__viewerCountry || "",
+  updateInfo,
+};
 
 function showError() {
   errorBox.hidden = false;
-  // Static literal only — never interpolate user/JSON data here (XSS).
   errorBox.innerHTML = 'Could not load the schedule. See the <a href="../tv.md">Markdown TV guide</a> instead.';
 }
 
-// Detect region (no filtering yet) — fire and forget.
-if (window.Region) window.Region.detectCountry().then((cc) => { window.__viewerCountry = cc; });
+// ---- Boot ----
+window.Theme.apply(window.Settings.store.read().theme);
+if (window.Region) window.Region.detectCountry().then((cc) => {
+  window.__viewerCountry = cc;
+  if (window.EPG && window.EPG.refilter) window.EPG.refilter();
+});
 
 fetch("schedule.json")
   .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then((data) => { if (!data || !data.channels) throw new Error("empty"); schedule = data; render(); })
+  .then((data) => {
+    if (!data || !data.channels) throw new Error("empty");
+    schedule = data;
+    buildOrder();
+    if (window.EPG && window.EPG.render) window.EPG.render(document.getElementById("epg"));
+    const first = order[0];
+    updateInfo(first);
+    tune(first, false);
+    if (typeof wireControls === "function") wireControls();
+  })
   .catch(showError);

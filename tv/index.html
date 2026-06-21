@@ -6,7 +6,7 @@
   <title>Japanese TV Channel Guide — Watch Japanese TV Online for Immersion Learning</title>
   <meta name="description" content="Watch Japanese TV networks (NHK, ANN, TBS, Nippon TV, Fuji, TV Tokyo, Weathernews) live or their latest uploads on YouTube — free immersion listening practice for Japanese learners.">
   <link rel="canonical" href="https://yudataguy.github.io/Awesome-Japanese/tv/">
-  <meta name="theme-color" content="#0f1115">
+  <meta name="theme-color" content="#0d0e12">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -37,49 +37,45 @@
   <link rel="stylesheet" href="tv.css">
 </head>
 <body>
-  <header class="site-header">
-    <h1>📺 Japanese TV Channel Guide</h1>
-    <p class="tagline">Watch Japanese TV networks live or their latest uploads — great listening practice. Part of <a href="../readme.md">Awesome Japanese</a>.</p>
-  </header>
+  <h1 class="sr-only">Japanese TV Channel Guide — watch Japanese TV online for immersion learning</h1>
 
-  <main>
-    <section class="player-wrap">
-      <div class="player-frame">
-        <!-- The YouTube IFrame Player API replaces this div with an iframe. -->
-        <div id="player"></div>
+  <div class="app" id="app">
+    <div class="top">
+      <div class="video">
+        <div class="player-frame">
+          <!-- The YouTube IFrame Player API replaces this div with an iframe. -->
+          <div id="player"></div>
+        </div>
       </div>
-      <div class="now-playing" aria-live="polite">
-        <span id="np-mode" class="np-mode">⏭ Latest</span>
-        <span id="np-name" class="np-name">—</span>
-      </div>
-    </section>
-
-    <div class="tv-controls">
-      <div class="view-toggle" role="tablist">
-        <button id="view-channels" class="vt on" type="button">Channels</button>
-        <button id="view-guide" class="vt" type="button">Guide 番組表</button>
-      </div>
-      <input id="tv-search" class="tv-search" type="search" placeholder="Search channels…"
-             aria-label="Search channels and programs" autocomplete="off">
+      <aside class="info" id="info" aria-live="polite"><!-- filled by tv.js --></aside>
     </div>
 
-    <section id="rail" class="rail" aria-label="Channels"></section>
-    <div id="tv-empty" class="no-match" hidden>No matches.</div>
-    <div id="epg" class="epg" hidden></div>
-    <div id="error" class="error" hidden></div>
-  </main>
+    <button class="guidebar" id="guidebar" type="button">⌄&nbsp; HIDE GUIDE&nbsp; 番組表をたたむ</button>
 
-  <footer class="site-footer">
-    <p>No tracking, no client-side API keys — just public YouTube embeds. Each channel plays a live, scheduled loop of its latest uploads — like a TV channel. Switch away and back and you'll rejoin where the broadcast is now.</p>
-  </footer>
+    <div class="guide" id="epg"><!-- EPG rows (epg.js) --></div>
 
-  <!-- icons.js + schedule.js + region.js (first-party) load before tv.js (they
-       set globalThis.IconLib / globalThis.ScheduleLib / window.Region). No SRI
-       on iframe_api: it is a versioned loader Google updates without a published
+    <div class="statusbar">
+      <div class="sb-left">📺 <b>日本テレビガイド</b><span class="sb-hint">&nbsp; ・ Tune ▲▼ ・ g: guide</span></div>
+      <div class="sb-right">
+        <input id="tv-search" class="tv-search" type="search" placeholder="Search 検索…" aria-label="Search channels and programs" autocomplete="off">
+        <button id="sb-settings" class="sb-btn" type="button" aria-label="Settings 設定" title="Settings">⚙</button>
+        <button id="sb-mute" class="sb-btn" type="button" aria-label="Mute" title="Mute">🔊</button>
+        <button id="sb-full" class="sb-btn" type="button" aria-label="Fullscreen" title="Fullscreen">⛶</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="error" class="error" hidden></div>
+
+  <!-- icons.js / schedule.js / region.js / theme.js / settings.js (first-party)
+       load before tv.js (they set globalThis.* and window.*). No SRI on
+       iframe_api: it is a versioned loader Google updates without a published
        hash, so pinning one would break playback on rotation. -->
   <script src="icons.js"></script>
   <script src="schedule.js"></script>
   <script src="region.js"></script>
+  <script src="theme.js"></script>
+  <script src="settings.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
   <script src="tv.js"></script>
   <script src="epg.js"></script>
