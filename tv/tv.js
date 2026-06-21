@@ -142,8 +142,44 @@ window.TVApp = {
   tune, getSchedule, GROUP_ORDER, GROUP_LABELS_JA,
   get order() { return order; }, get chNo() { return chNo; },
   getCountry: () => window.__viewerCountry || "",
+  getQuery: () => query, getActive: () => activeChannelId,
   updateInfo,
 };
+
+// Status-bar + guide controls (search, hide-guide, mute, fullscreen).
+function wireControls() {
+  const app = document.getElementById("app");
+  const guidebar = document.getElementById("guidebar");
+  const search = document.getElementById("tv-search");
+  const muteBtn = document.getElementById("sb-mute");
+  const fullBtn = document.getElementById("sb-full");
+
+  function updateGuidebarLabel() {
+    guidebar.textContent = app.classList.contains("guide-hidden")
+      ? "⌃  SHOW GUIDE  番組表をひらく" : "⌄  HIDE GUIDE  番組表をたたむ";
+  }
+  function toggleGuide() { app.classList.toggle("guide-hidden"); updateGuidebarLabel(); }
+
+  if (window.Settings.store.read().guideHidden) app.classList.add("guide-hidden");
+  updateGuidebarLabel();
+  guidebar.addEventListener("click", toggleGuide);
+  document.addEventListener("keydown", (e) => {
+    const t = document.activeElement && document.activeElement.tagName;
+    if (e.key === "g" && t !== "INPUT" && t !== "TEXTAREA") toggleGuide();
+  });
+
+  if (search) search.addEventListener("input", () => { query = search.value.trim().toLowerCase(); window.EPG.filter(query); });
+
+  if (muteBtn) muteBtn.addEventListener("click", () => {
+    if (!ytPlayer || !ytPlayer.isMuted) return;
+    if (ytPlayer.isMuted()) { ytPlayer.unMute(); muteBtn.textContent = "🔊"; }
+    else { ytPlayer.mute(); muteBtn.textContent = "🔇"; }
+  });
+  if (fullBtn) fullBtn.addEventListener("click", () => {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (app.requestFullscreen) app.requestFullscreen();
+  });
+}
 
 function showError() {
   errorBox.hidden = false;
