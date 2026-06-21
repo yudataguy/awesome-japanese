@@ -190,6 +190,24 @@ function wireControls() {
   });
 }
 
+// CRT start screen: the click is the user gesture that unlocks autoplay WITH
+// sound. On start, power on a random channel.
+function wireStartScreen() {
+  const ss = document.getElementById("start-screen");
+  if (!ss) return;
+  let started = false;
+  function start() {
+    if (started) return; started = true;
+    const id = order[Math.floor(Math.random() * order.length)];
+    try { if (ytPlayer && ytPlayer.unMute) ytPlayer.unMute(); } catch (e) {}
+    tune(id, true); // autoplay with sound
+    ss.classList.add("hide");
+    setTimeout(() => { ss.hidden = true; }, 600);
+  }
+  ss.addEventListener("click", start);
+  ss.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); start(); } });
+}
+
 function showError() {
   errorBox.hidden = false;
   errorBox.innerHTML = 'Could not load the schedule. See the <a href="../tv.md">Markdown TV guide</a> instead.';
@@ -222,6 +240,7 @@ fetch("schedule.json")
     updateInfo(first);
     tune(first, false);
     wireControls();
+    wireStartScreen();
     window.Settings.initUI({ onChange: onSettingChange });
   })
   .catch(showError);

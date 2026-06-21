@@ -94,6 +94,28 @@ body {
 .epg-now { position: absolute; height: 2px; background: var(--now); box-shadow: var(--now-glow); z-index: 2; pointer-events: none; }
 .no-match { color: var(--muted); padding: 16px; font-size: 13px; }
 
+/* ---- CRT start screen (power-on) ---- */
+.start-screen { position: fixed; inset: 0; z-index: 100; cursor: pointer;
+  background: radial-gradient(ellipse at center, #15110a 0%, #050402 82%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; transition: opacity .55s ease; }
+.start-screen[hidden] { display: none; }                 /* [hidden] must beat display:flex */
+.start-screen.hide { opacity: 0; }
+.start-screen::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0) 2px, rgba(0,0,0,.32) 3px); }
+.start-screen::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 120px 34px rgba(0,0,0,.85); border-radius: 50% / 12%; }
+.start-inner { position: relative; text-align: center; color: #f0d9a8; animation: crtOn .55s ease-out both; }
+.start-brand { font-size: clamp(18px, 3vw, 30px); letter-spacing: .2em; color: #e8c87a; text-shadow: 0 0 12px rgba(240,200,120,.5); }
+.start-pow { width: 70px; height: 70px; margin: 22px auto; border-radius: 50%; border: 2px solid #e0673c; color: #e0673c;
+  display: flex; align-items: center; justify-content: center; font-size: 32px; animation: powPulse 2s ease-in-out infinite; }
+.start-cta { font-size: clamp(14px, 2vw, 18px); color: #efe6d6; }
+.start-hint { font-size: 12px; color: #a99a82; margin-top: 8px; letter-spacing: .05em; }
+@keyframes crtOn { 0% { transform: scaleY(.003); filter: brightness(4); opacity: 0; }
+  45% { transform: scaleY(.003); filter: brightness(4); opacity: 1; } 100% { transform: scaleY(1); filter: brightness(1); opacity: 1; } }
+@keyframes powPulse { 0%, 100% { box-shadow: 0 0 16px rgba(224,103,60,.5); } 50% { box-shadow: 0 0 28px rgba(224,103,60,.9); } }
+@media (prefers-reduced-motion: reduce) { .start-inner { animation: none; } .start-pow { animation: none; } }
+
 /* ---- Settings modal ---- */
 .modal { position: fixed; inset: 0; display: flex; align-items: flex-start; justify-content: center;
   background: rgba(0, 0, 0, .55); z-index: 50; }
