@@ -292,8 +292,10 @@ a { color: var(--ai); text-decoration: none; }
   .hero-kana { font-size: 44vw; right: -6vw; }
 }
 
-/* Share button (hero) — native share sheet on phones, link menu on desktop */
-.hero-share { position: relative; display: inline-block; margin-top: 16px; }
+/* Share button — native share sheet on phones, link menu on desktop.
+   Desktop: under the Contents sidebar. Mobile (<900px, sidebar hidden): in the hero. */
+.toc-share { position: relative; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+.hero-share { position: relative; display: none; margin-top: 16px; }
 .share-btn { background: var(--shu); color: var(--washi); border: 0; border-radius: 999px;
   padding: 9px 18px; font-weight: 700; cursor: pointer; font-size: .95rem; font-family: inherit; }
 .share-btn:hover { background: var(--shu-deep); }
@@ -305,3 +307,8 @@ a { color: var(--ai); text-decoration: none; }
   color: var(--sumi); padding: 9px 12px; border-radius: 8px; font-size: .92rem; cursor: pointer;
   text-decoration: none; font-family: inherit; }
 .share-menu a:hover, .share-menu button:hover { background: var(--washi-2); }
+
+/* On mobile the Contents sidebar (with its share button) is hidden, so show the hero one. */
+@media (max-width: 900px) {
+  .hero-share { display: inline-block; }
+}
