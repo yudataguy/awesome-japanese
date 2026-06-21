@@ -1,19 +1,10 @@
 const GROUP_ORDER = ["National", "BS / Satellite", "Hokkaido", "Tohoku", "Kanto", "Chubu", "Kansai", "Chugoku", "Shikoku", "Kyushu-Okinawa"];
 
-function uploadsUrl(channelId, autoplay) {
-  // Channel uploads playlist (UC... -> UU...). A playlist embed auto-advances
-  // through the channel's uploads, so it keeps playing without further clicks.
-  // autoplay=1 is only set on a user-initiated pick: browsers require a user
-  // gesture to start playback with sound, which a chip click satisfies.
-  const base = "https://www.youtube.com/embed/videoseries?list=UU" + channelId.slice(2);
-  return autoplay ? base + "&autoplay=1" : base;
-}
 function liveLink(channelId) {
   // Opens the channel's current live broadcast on YouTube (or its "not live" page).
   return "https://www.youtube.com/channel/" + channelId + "/live";
 }
 
-const player = document.getElementById("player");
 const npMode = document.getElementById("np-mode");
 const npName = document.getElementById("np-name");
 const rail = document.getElementById("rail");
@@ -26,12 +17,73 @@ function isValidChannel(channel) {
     && channel.youtubeChannelId.startsWith("UC");
 }
 
+// --- YouTube IFrame Player API ---------------------------------------------
+let ytPlayer = null;
+let ytReady = false;
+let channelsReady = false;
+let initDone = false;
+let pendingInit = null;   // {channel, chip, autoplay} chosen before the player was ready
+let defaultPick = null;   // {channel, chip} default selection from render()
+let activeChannelId = null;
+
+function ytList(channelId) { return "UU" + channelId.slice(2); }
+
+// YouTube calls this global when the IFrame API has loaded.
+window.onYouTubeIframeAPIReady = function () {
+  ytPlayer = new YT.Player("player", {
+    host: "https://www.youtube.com",
+    playerVars: { playsinline: 1, rel: 0, origin: window.location.origin },
+    events: {
+      onReady: function () { ytReady = true; flushPending(); maybeInit(); },
+      onStateChange: onPlayerStateChange,
+    },
+  });
+};
+
+// If the user clicked a channel before the API finished loading, that pick wins
+// over the default/restore init.
+function flushPending() {
+  if (!pendingInit || !ytReady) return;
+  const p = pendingInit; pendingInit = null;
+  initDone = true;
+  startChannel(p.channel, p.autoplay);
+}
+
+// Poll getPlaylist() until the playlist window is populated (no dedicated event).
+function whenPlaylistReady(cb) {
+  let tries = 0;
+  (function check() {
+    let list = null;
+    try { list = ytPlayer.getPlaylist(); } catch (e) {}
+    if (list && list.length) return cb(list);
+    if (tries++ < 25) setTimeout(check, 100); // ~2.5s budget
+  })();
+}
+
+// autoplay=true → load & play (user gesture). false → cue (paused).
+// NOTE: this parity version is REPLACED by the resume-aware version in Task 4.
+function startChannel(channel, autoplay) {
+  activeChannelId = channel.youtubeChannelId;
+  const opts = { list: ytList(channel.youtubeChannelId), listType: "playlist", index: 0 };
+  if (autoplay) ytPlayer.loadPlaylist(opts);
+  else ytPlayer.cuePlaylist(opts);
+}
+
+function onPlayerStateChange() { /* filled in Task 3 */ }
+
+function maybeInit() {
+  if (!ytReady || !channelsReady || initDone || !defaultPick) return;
+  initDone = true;
+  play(defaultPick.channel, defaultPick.chip, false); // cue default (paused), like today
+}
+
 function play(channel, chipEl, autoplay) {
-  player.src = uploadsUrl(channel.youtubeChannelId, autoplay);
   npMode.textContent = "⏭ Latest";
   npName.textContent = channel.name;
   if (selectedChip) selectedChip.classList.remove("selected");
   if (chipEl) { chipEl.classList.add("selected"); selectedChip = chipEl; }
+  if (ytReady) startChannel(channel, autoplay);
+  else pendingInit = { channel: channel, chip: chipEl, autoplay: autoplay };
 }
 
 function makeChip(channel) {
@@ -106,9 +158,13 @@ function render(channels) {
   }
 
   // First load: default to a channel that runs live (its uploads are reliably
-  // embeddable worldwide), else the first valid channel. Plays latest uploads.
-  if (firstLiveChannel) play(firstLiveChannel, firstLiveChip);
-  else if (firstChannel) play(firstChannel, firstChip);
+  // embeddable worldwide), else the first valid channel. The actual cue/play is
+  // deferred to maybeInit() so it waits for the IFrame player to be ready.
+  channelsReady = true;
+  defaultPick = firstLiveChannel
+    ? { channel: firstLiveChannel, chip: firstLiveChip }
+    : (firstChannel ? { channel: firstChannel, chip: firstChip } : null);
+  maybeInit();
 }
 
 function showError() {

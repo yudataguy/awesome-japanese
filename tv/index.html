@@ -45,7 +45,8 @@
   <main>
     <section class="player-wrap">
       <div class="player-frame">
-        <iframe id="player" title="Channel player" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        <!-- The YouTube IFrame Player API replaces this div with an iframe. -->
+        <div id="player"></div>
       </div>
       <div class="now-playing" aria-live="polite">
         <span id="np-mode" class="np-mode">⏭ Latest</span>
@@ -61,6 +62,11 @@
     <p>No tracking, no API keys — just public YouTube embeds. Each channel plays its latest uploads continuously in the player; the ▶ Live link opens that channel's current live stream on YouTube.</p>
   </footer>
 
+  <!-- resume.js (first-party) must load before tv.js — it sets window.Resume.
+       No SRI on iframe_api: it is a versioned loader Google updates without a
+       published hash, so pinning one would break playback on rotation. -->
+  <script src="resume.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script src="tv.js"></script>
 </body>
 </html>
