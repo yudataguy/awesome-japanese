@@ -13,6 +13,13 @@
     for (let i = 0; i < (s || "").length; i++) h = (h * 31 + s.charCodeAt(i)) % 360;
     return h;
   }
-  const api = { initials, hueFromString };
+  // Case-insensitive substring match; empty query matches everything.
+  function matches(query, text) {
+    const q = String(query || "").trim().toLowerCase();
+    if (!q) return true;
+    return String(text || "").toLowerCase().includes(q);
+  }
+
+  const api = { initials, hueFromString, matches };
   if (typeof globalThis !== "undefined") globalThis.IconLib = api;
 })();

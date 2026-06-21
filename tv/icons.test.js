@@ -21,3 +21,23 @@ test("hueFromString: deterministic, in [0,360)", () => {
   assert.strictEqual(h, hueFromString("ANN"));
   assert.ok(h >= 0 && h < 360);
 });
+
+const { matches } = globalThis.IconLib;
+
+test("matches: empty query -> always true", () => {
+  assert.strictEqual(matches("", "anything"), true);
+  assert.strictEqual(matches("   ", "anything"), true);
+});
+test("matches: case-insensitive substring", () => {
+  assert.strictEqual(matches("nhk", "NHK News"), true);
+  assert.strictEqual(matches("NEWS", "日テレNEWS"), true);
+});
+test("matches: non-match -> false", () => {
+  assert.strictEqual(matches("xyz", "ANN News"), false);
+});
+test("matches: Japanese substring", () => {
+  assert.strictEqual(matches("ニュース", "サガテレビ ニュース"), true);
+});
+test("matches: tolerates missing text", () => {
+  assert.strictEqual(matches("a", undefined), false);
+});
