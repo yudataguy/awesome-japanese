@@ -42,13 +42,14 @@ export function mergeSources(primaryVideos, subVideoArrays, { maxPrimary, maxSub
 
 const EPOCH = 1700000000; // FIXED — never change; keeps the shared clock continuous.
 const MAX_ITEMS = 40;     // recent uploads per channel (window)
+const SUB_MAX_ITEMS = 18; // per sub-channel cap so news doesn't flood the merge
 // All channels come from the directory (tv/channels.json). Embeddability is
 // per-video (even "main" broadcasters mix embeddable + error-150 uploads), so
 // it's filtered per video via status.embeddable below — not per channel.
 // Channels that yield fewer than MIN_ITEMS playable items are dropped.
 const MIN_ITEMS = 4;
 const CHANNELS = JSON.parse(readFileSync(new URL("../tv/channels.json", import.meta.url), "utf8"))
-  .channels.map((c) => ({ channelId: c.youtubeChannelId, name: c.name, group: c.group }));
+  .channels.map((c) => ({ channelId: c.youtubeChannelId, extraIds: c.extraChannelIds || [], name: c.name, group: c.group }));
 const API = "https://www.googleapis.com/youtube/v3";
 const SHORTS_DURATION_MAX = 180; // only videos this short can be Shorts; skip the check for longer ones
 
@@ -76,6 +77,7 @@ async function videoDetails(ids, key) {
     for (const v of d.items || []) {
       out[v.id] = {
         title: v.snippet?.title || "",
+        publishedAt: v.snippet?.publishedAt || "",
         isoDuration: v.contentDetails?.duration || "",
         regionRestriction: v.contentDetails?.regionRestriction,
         embeddable: v.status?.embeddable,
@@ -130,12 +132,20 @@ async function main() {
   const outPath = outArg > -1 ? process.argv[outArg + 1] : "tv/schedule.json";
 
   // 1) Fetch each channel's recent uploads + details (limited concurrency).
+  async function fetchVideos(channelId) {
+    const ids = (await uploadIds(channelId, key)).reverse(); // oldest -> newest
+    const details = await videoDetails(ids, key);
+    // Deleted/privated between calls → details[id] undefined → no isoDuration → dropped.
+    return ids.map((id) => ({ videoId: id, ...details[id] })).filter((v) => v.isoDuration);
+  }
   async function fetchChannel(ch) {
     try {
-      const ids = (await uploadIds(ch.channelId, key)).reverse(); // oldest -> newest
-      const details = await videoDetails(ids, key);
-      // Deleted/privated between calls → details[id] undefined → no isoDuration → dropped.
-      const videos = ids.map((id) => ({ videoId: id, ...details[id] })).filter((v) => v.isoDuration);
+      const primary = await fetchVideos(ch.channelId);
+      const subs = [];
+      for (const ex of ch.extraIds) subs.push(await fetchVideos(ex));
+      const videos = ch.extraIds.length
+        ? mergeSources(primary, subs, { maxPrimary: MAX_ITEMS, maxSub: SUB_MAX_ITEMS })
+        : primary;
       return { channelId: ch.channelId, name: ch.name, group: ch.group, videos };
     } catch (e) {
       console.warn(`fetch failed: ${ch.name}: ${e.message}`);
