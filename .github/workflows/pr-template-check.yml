@@ -33,16 +33,28 @@ jobs:
 
             const LABEL = "needs-template";
             const MARKER = "<!-- pr-template-check -->";
+            const TEMPLATE_FILE = ".github/pull_request_template.md";
+
+            // Meta-PRs that edit the template itself are exempt -- they
+            // shouldn't be forced to comply with the template they're changing.
+            const changedFiles = await github.paginate(github.rest.pulls.listFiles, {
+              owner,
+              repo,
+              pull_number: number,
+              per_page: 100,
+            });
+            const editsTemplate = changedFiles.some((f) => f.filename === TEMPLATE_FILE);
 
             // Per-section rules, mirroring .github/pull_request_template.md.
             // - "Type of change" / "Your Role" are pick-one  -> min: 1
             // - "Checklist" items are all mandatory affirmations -> requireAll
             // To relax a section later, change `min` or drop `requireAll`.
+            // "Survey: AI Assistance (Optional)" is handled separately below --
+            // it is only enforced when the submitter is affiliated with the item.
             const SECTION_RULES = [
               { header: "Type of change", min: 1 },
               { header: "Checklist", requireAll: true },
               { header: "Your Role", min: 1 },
-              { header: "AI Assistance", min: 1 },
             ];
 
             const body = pr.body || "";
@@ -86,7 +98,30 @@ jobs:
               }
             }
 
-            const compliant = problems.length === 0;
+            // The AI-assistance survey is optional, but requested when the
+            // submitter is affiliated with the item (they built it, so they
+            // know how much AI was involved). Enforce it only in that case.
+            const isAffiliated = body
+              .split("\n")
+              .some((l) => /^\s*- \[(x|X)\].*affiliated with this item/.test(l));
+            if (isAffiliated) {
+              const SURVEY = "Survey: AI Assistance (Optional)";
+              const survey = sections[SURVEY];
+              if (!survey || survey.total === 0) {
+                problems.push(
+                  `The **${SURVEY}** section is missing. Please don't delete parts of the template — fill it in instead.`
+                );
+              } else if (survey.ticked < 1) {
+                problems.push(
+                  `**${SURVEY}**: since you're affiliated with this item, please tick one option (currently ${survey.ticked}/${survey.total}).`
+                );
+              }
+            }
+
+            const compliant = editsTemplate || problems.length === 0;
+            if (editsTemplate) {
+              core.info("PR edits the template itself; skipping template enforcement.");
+            }
 
             // --- Find an existing sticky comment from this workflow ---
             const comments = await github.paginate(github.rest.issues.listComments, {

@@ -28,8 +28,8 @@
 - [ ] I'm affiliated with this item
 - [ ] I'm nominating this item
 
-## AI Assistance
-<!-- Roughly how much AI was involved in finding/writing this contribution? Pick one. This is just a survey — any honest answer is welcome. -->
+## Survey: AI Assistance (Optional)
+<!-- Optional survey, only asked if you're affiliated with this item (you ticked "I'm affiliated with this item" above). Roughly how much AI was involved in finding/writing this contribution? Pick one — any honest answer is welcome. -->
 - [ ] Little to none (<10%) — I wrote it myself
 - [ ] Side by side (~10–50%) — AI assisted, I directed
 - [ ] Mostly AI (>50%) — AI did most of the work

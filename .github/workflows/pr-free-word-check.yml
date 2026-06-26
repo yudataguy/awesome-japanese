@@ -32,6 +32,11 @@ jobs:
 
             const MARKER = "<!-- pr-free-word-check -->";
 
+            // Files that legitimately contain the word "free" in guidance text
+            // (not as catalogue entries). The PR template documents the "free"
+            // rule itself, so editing it must not trip this check.
+            const IGNORE_FILES = new Set([".github/pull_request_template.md"]);
+
             // Read the PR diff via the API (no checkout of untrusted code).
             const files = await github.paginate(github.rest.pulls.listFiles, {
               owner,
@@ -42,6 +47,7 @@ jobs:
 
             const offenders = []; // { file, text }
             for (const f of files) {
+              if (IGNORE_FILES.has(f.filename)) continue; // guidance, not a list entry
               if (!/\.md$/i.test(f.filename)) continue; // list lives in Markdown
               if (!f.patch) continue; // binary / too-large diffs carry no patch
               for (const line of f.patch.split("\n")) {
