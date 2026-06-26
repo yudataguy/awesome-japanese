@@ -1,0 +1,115 @@
+name: PR free-word check
+
+# Flags pull requests whose newly added list entries use the word "free" in a
+# description. Items without the :moneybag: emoji are already understood to be
+# free, so the word is redundant; freemium/paid items should carry :moneybag:
+# instead. Posts/updates a sticky comment and fails the check until resolved.
+#
+# Uses pull_request_target so the workflow has a write token even for PRs from
+# forks (the default for outside contributors). This is safe because the job
+# only reads the PR diff via the API (pulls.listFiles) -- it never checks out or
+# runs the PR's code.
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  free-word-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check added entries for the word "free"
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const number = context.payload.pull_request.number;
+
+            const MARKER = "<!-- pr-free-word-check -->";
+
+            // Read the PR diff via the API (no checkout of untrusted code).
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner,
+              repo,
+              pull_number: number,
+              per_page: 100,
+            });
+
+            const offenders = []; // { file, text }
+            for (const f of files) {
+              if (!/\.md$/i.test(f.filename)) continue; // list lives in Markdown
+              if (!f.patch) continue; // binary / too-large diffs carry no patch
+              for (const line of f.patch.split("\n")) {
+                // Added lines only; skip the "+++" file header.
+                if (!line.startsWith("+") || line.startsWith("+++")) continue;
+                const added = line.slice(1);
+                // Only catalogue entries (Markdown list items) are in scope.
+                if (!/^\s*[-*]\s/.test(added)) continue;
+                // Drop link targets so URLs like /free-books-en don't trip it.
+                const text = added.replace(/\]\([^)]*\)/g, "]");
+                // \bfree\b matches "free" but not "freemium"/"freely".
+                if (/\bfree\b/i.test(text)) {
+                  offenders.push({ file: f.filename, text: added.trim() });
+                }
+              }
+            }
+
+            const compliant = offenders.length === 0;
+
+            // Find an existing sticky comment from this workflow.
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: number,
+              per_page: 100,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(MARKER));
+
+            if (compliant) {
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner,
+                  repo,
+                  comment_id: existing.id,
+                  body: `${MARKER}\n✅ Thanks — no stray "free" wording in the added entries.`,
+                });
+              }
+              core.info('No "free" wording found in added entries.');
+              return;
+            }
+
+            const message = [
+              MARKER,
+              `👋 Thanks for the contribution! These added entries use the word **"free"**:`,
+              "",
+              ...offenders.map((o) => `- \`${o.file}\`: ${o.text}`),
+              "",
+              'Items **without** the `:moneybag:` emoji are already considered free, so the word "free" is redundant. If an item is freemium or paid, add the `:moneybag:` emoji instead. Please remove "free" from the description.',
+              "",
+              "Editing the PR will re-run this check automatically — no need to open a new PR.",
+            ].join("\n");
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body: message,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: number,
+                body: message,
+              });
+            }
+
+            core.setFailed(
+              `PR #${number}: ${offenders.length} added entr${offenders.length === 1 ? "y uses" : "ies use"} the word "free".`
+            );

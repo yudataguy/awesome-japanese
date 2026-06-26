@@ -44,6 +44,7 @@ Add each item as a single list line in the form:
 - Use the linked **Name** for the resource, followed by ` - ` and a description.
 - Capitalize the description and end it with a period.
 - Prefer `https://` links, and confirm the link works before submitting.
+- **Pricing:** don't use the word "free" in a description — items without the `:moneybag:` emoji are already treated as free, so it's redundant. If the item has freemium tiers, in-app purchases, or paid plans, add `:moneybag:` instead. See the emoji legend at the top of the [readme](readme.md).
 
 ## Guidelines
 

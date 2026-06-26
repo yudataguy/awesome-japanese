@@ -42,6 +42,7 @@ jobs:
               { header: "Type of change", min: 1 },
               { header: "Checklist", requireAll: true },
               { header: "Your Role", min: 1 },
+              { header: "AI Assistance", min: 1 },
             ];
 
             const body = pr.body || "";
