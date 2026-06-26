@@ -335,3 +335,5 @@ Contributions welcome! Read the [contribution guidelines](contributing.md) first
 [![CC4](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by.svg)](https://creativecommons.org/licenses/by/4.0/)
 
 This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+<!-- demo: template-check test, will be closed unmerged -->
