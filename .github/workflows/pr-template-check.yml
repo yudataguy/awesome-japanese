@@ -1,0 +1,162 @@
+name: PR template check
+
+# Flags pull requests that were opened without using (or filling in) the
+# repository pull request template. Posts/updates a sticky comment, adds a
+# "needs-template" label, and fails the check until the PR complies.
+#
+# Uses pull_request_target so the workflow has a write token even for PRs from
+# forks (the default for outside contributors). This is safe because the job
+# only reads the PR body from the event payload -- it never checks out or runs
+# the PR's code.
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  template-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR body against template
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pr = context.payload.pull_request;
+            const number = pr.number;
+
+            const LABEL = "needs-template";
+            const MARKER = "<!-- pr-template-check -->";
+
+            // Per-section rules, mirroring .github/pull_request_template.md.
+            // - "Type of change" / "Your Role" are pick-one  -> min: 1
+            // - "Checklist" items are all mandatory affirmations -> requireAll
+            // To relax a section later, change `min` or drop `requireAll`.
+            const SECTION_RULES = [
+              { header: "Type of change", min: 1 },
+              { header: "Checklist", requireAll: true },
+              { header: "Your Role", min: 1 },
+            ];
+
+            const body = pr.body || "";
+
+            // Walk the body line by line, tallying checkbox state per "## " section.
+            const sections = {}; // header -> { ticked, total }
+            let current = null;
+            for (const line of body.split("\n")) {
+              const headerMatch = line.match(/^##\s+(.*\S)\s*$/);
+              if (headerMatch) {
+                current = headerMatch[1];
+                sections[current] = sections[current] || { ticked: 0, total: 0 };
+                continue;
+              }
+              const boxMatch = line.match(/^\s*- \[( |x|X)\]/);
+              if (boxMatch && current) {
+                sections[current].total += 1;
+                if (boxMatch[1].toLowerCase() === "x") {
+                  sections[current].ticked += 1;
+                }
+              }
+            }
+
+            const problems = [];
+            for (const rule of SECTION_RULES) {
+              const found = sections[rule.header];
+              if (!found || found.total === 0) {
+                problems.push(
+                  `The **${rule.header}** section is missing. Please don't delete parts of the template — fill it in instead.`
+                );
+                continue;
+              }
+              const need = rule.requireAll ? found.total : rule.min;
+              if (found.ticked < need) {
+                const what = rule.requireAll
+                  ? `all ${found.total} boxes`
+                  : `at least ${need} box${need === 1 ? "" : "es"}`;
+                problems.push(
+                  `**${rule.header}**: tick ${what} that apply (currently ${found.ticked}/${found.total}).`
+                );
+              }
+            }
+
+            const compliant = problems.length === 0;
+
+            // --- Find an existing sticky comment from this workflow ---
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: number,
+              per_page: 100,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(MARKER));
+
+            if (compliant) {
+              // Clear the label if present.
+              const hasLabel = (pr.labels || []).some((l) => l.name === LABEL);
+              if (hasLabel) {
+                try {
+                  await github.rest.issues.removeLabel({
+                    owner,
+                    repo,
+                    issue_number: number,
+                    name: LABEL,
+                  });
+                } catch (e) {
+                  core.info(`Could not remove label (may already be gone): ${e.message}`);
+                }
+              }
+              // Resolve the sticky comment if we left one earlier.
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner,
+                  repo,
+                  comment_id: existing.id,
+                  body: `${MARKER}\n✅ Thanks — this PR now follows the pull request template.`,
+                });
+              }
+              core.info("PR follows the template.");
+              return;
+            }
+
+            // --- Non-compliant: label, comment, and fail the check ---
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: number,
+              labels: [LABEL],
+            });
+
+            const message = [
+              MARKER,
+              `👋 Thanks for the contribution! This PR doesn't seem to follow the [pull request template](../blob/${context.payload.repository.default_branch}/.github/pull_request_template.md):`,
+              "",
+              ...problems.map((p) => `- ${p}`),
+              "",
+              "Editing the PR description to fix these will automatically clear this flag — no need to open a new PR.",
+            ].join("\n");
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body: message,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: number,
+                body: message,
+              });
+            }
+
+            core.setFailed(
+              `PR #${number} does not follow the pull request template (${problems.length} issue(s)).`
+            );
