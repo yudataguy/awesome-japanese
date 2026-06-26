@@ -226,6 +226,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [Learn Japanese Pod](https://learnjapanesepod.com/) - Japanese language learning podcast.
   - [JapanesePod101](https://www.japanesepod101.com/) - Japanese language learning podcast with multiple levels and web platform.
   - [News in Slow Japanese](http://newsinslowjapanese.com/) - Listen to Japanese News in slow speed. :moneybag:
+  - [Japanese Daily News](https://podcast.jpnotes.dev/) - Daily news podcast for learners, slow audio with vocab and grammar. :baby:
   - [NHK News Podcast](https://www.nhk.or.jp/podcasts/) - Three podcasts available: Japanese news :older_man:, English news, and Easy Japanese.
   - [Bilingual News](http://bilingualnews.libsyn.com/) - Weekly bilingual English/Japanese news podcast with casual, unedited colloquial conversation. :older_man:
   - [Nihongo con Teppei](https://nihongoconteppei.com/) - Japanese podcast for beginners
