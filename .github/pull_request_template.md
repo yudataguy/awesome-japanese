@@ -18,6 +18,7 @@
 - [ ] The link is working and points to the intended content
 - [ ] The description is concise and informative, and does not use the word "free" (items without `:moneybag:` are already considered free)
 - [ ] Pricing is marked correctly: I added the `:moneybag:` emoji if the item has freemium tiers, in-app purchases, or paid plans
+- [ ] If the item starts charging money after this PR is merged (paid plans, in-app purchases, or freemium tiers), I will revise its description here to add the `:moneybag:` emoji — otherwise the entry may be removed without warning
 - [ ] Item description is under 100 characters (excluding emoji)
 - [ ] I have added the item to the appropriate category
 - [ ] I understand this PR may be automatically closed after 90 days if there is no follow-up after a requested change

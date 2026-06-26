@@ -45,6 +45,7 @@ Add each item as a single list line in the form:
 - Capitalize the description and end it with a period.
 - Prefer `https://` links, and confirm the link works before submitting.
 - **Pricing:** don't use the word "free" in a description — items without the `:moneybag:` emoji are already treated as free, so it's redundant. If the item has freemium tiers, in-app purchases, or paid plans, add `:moneybag:` instead. See the emoji legend at the top of the [readme](readme.md).
+- **Pricing changes after merge:** if an item starts charging money later (paid plans, in-app purchases, or freemium tiers), please open a pull request to revise its description and add the `:moneybag:` emoji. Entries that begin charging without being updated may be removed without warning.
 
 ## Guidelines
 
