@@ -195,6 +195,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 - [Dictionary of Japanese Grammar](https://dojgdeck.neocities.org/) - :card_index: The DoJG deck allows you to review the contents of the Dictionary of Japanese Grammar through Anki.
 - [Bunpro](https://bunpro.jp/) - Grammar learning web app using SRS. :moneybag:
 - [Sakubi](https://sakubi.neocities.org/) - Basic grammar primer that doesn't try to drill you :baby:
+- [Japanese Grammar Notes](https://jpnotes.dev/) - Free bilingual JLPT N5–N2 grammar notes with furigana, TTS audio, and Anki decks.
 
 ## Reading
 
