@@ -131,6 +131,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [Hiragana Practice Sheet](http://japanese-lesson.com/resources/pdf/characters/hiragana_writing_practice_sheets.pdf) - Print and practice.
   - [Listening Game for Hiragana](https://www.digitaldialects.com/Japanese/Hiragana.htm) - Hiragana game.
   - [Kana SH](https://kana.rezoleo.fr) - Practice Hiragana in a terminal fashion ([sources](https://github.com/benoitlx/kanash)). 💻
+  - [Keiko](https://keiko-jp.com) - Browser typing tutor for English speakers: read and type hiragana, katakana, kanji, and JLPT N5–N3 sentences by typing them, with romaji hints you can switch off. 💻
 - Katakana
   - [Tofugu for Katakana](https://www.tofugu.com/japanese/learn-katakana/) - Katakana lesson.
   - [Learn Katakana in 1 Hour](https://youtu.be/s6DKRgtVLGA) - Katakana video lesson.
