@@ -285,6 +285,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [mirumoji](https://github.com/svdC1/mirumoji) - Self-hosted, open-source video player with Japanese subtitle tokenization, JMDict, and Anki export. 👴
 - Subtitles
   - [kitsunekko](https://kitsunekko.net/dirlist.php?dir=subtitles%2Fjapanese%2F) - Repository of Japanese subtitles for many series
+  - [Picute Subtitle Encoding Fixer](https://picute.net/en/tools/subtitle-encoding-converter) - Free in-browser repair of garbled (mojibake) Japanese subtitles: re-decodes Shift-JIS to UTF-8.
 - See also: [**Japanese TV Channels**](https://japantv.app) - browse Japanese TV networks on YouTube (live & latest) with an interactive player.
 
 ## Dictionary
