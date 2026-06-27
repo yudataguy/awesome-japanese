@@ -260,6 +260,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [JapanesePod101](https://www.youtube.com/channel/UC0ox9NuTHYeRys63yZpBFuA) - Popular Japanese podcast's YouTube channel.
   - [Japanese Ammo with Misa](https://www.youtube.com/c/JapaneseAmmowithMisa) - Grammar & vocabulary lessons YouTube channel.
   - [Japanese from scratch](https://www.youtube.com/playlist?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj) - Different "organic" approach to learning Japanese.
+  - [Japanese with Yan](https://www.youtube.com/playlist?list=PL7ZuqslPKRdF17RE4328RMLbm7NzeLWVW) - 2 courses from the 80s that teach daily speech.
   - [Comprehensible Japanese](https://www.youtube.com/@cijapanese) - YouTube channel with great playlists for complete beginners.
   - [Game Gengo](https://www.youtube.com/@gamegengo) - YouTube channel dedicated to helping you learn Japanese through Video Games !
 - News
