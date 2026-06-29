@@ -216,7 +216,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 - [LearnNatively](https://learnnatively.com) - Community grades books, movies, and shows by proficiency level so you find content at your level.
 - [Manabi Reader](https://reader.manabi.io) - Web/RSS/EPUB reader with word lookup, vocab and kanji tracking, Anki export, and curated reading. :iphone: :computer:
 - [Nekonbini](https://nekonbini.com) - JLPT-graded stories with furigana that auto-hides as you learn, instant lookups, and built-in SRS. :computer: :moneybag:
-- [Meika Sensei's Easy Japanese Blog](https://meikasensei.com) - Short multiple-level articles by a Japanese teacher, on current Japanese trends and seasons. :baby: :man: :moneybag:
+- [Meika Sensei's Easy Japanese Blog](https://meikasensei.com) - Short multiple-level articles by a Japanese teacher, on current Japanese trends and seasons. :baby: :man:
 
 ## Listening
 
