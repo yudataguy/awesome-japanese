@@ -318,6 +318,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [Human Japanese](https://www.humanjapanese.com) - Popular Japanese learning program. :iphone: :computer: :moneybag:
   - [Google Japanese Input](https://www.google.co.jp/ime/) - Google Japanese Input, available on Windows, Mac, and Android. :computer: :robot:
   - [How to Install Japanese Keyboard on Everything](https://www.tofugu.com/japanese/how-to-install-japanese-keyboard/) - Guide by Tofugu.
+  - [meikipop](https://github.com/rtr46/meikipop) - OCR based popup dictionary. Can be used to perform lookups with games, manga and hardsubs :computer:
 - Browser Extension:satellite:
   - Firefox
     - [Rikaichamp](https://addons.mozilla.org/en-US/firefox/addon/rikaichamp/) - Japanese to English/German/French/Russian popup dictionary; hover a word for a definition.
