@@ -1,0 +1,234 @@
+name: PR link check
+
+# Visits the URLs of newly added list entries in a pull request and flags any
+# that are definitively gone (HTTP 404/410). It posts/updates a sticky comment
+# but never fails the check -- transient outages and bot-blocking make a hard
+# failure too flaky, so this is informational only.
+#
+# Strictly "dead" means 404 or 410, confirmed by a retry. Timeouts, DNS errors,
+# 403/429 (bot-blocking) and 5xx (server hiccups) are treated as "couldn't
+# verify" and are NOT reported, to keep false positives near zero.
+#
+# Uses pull_request_target so the workflow has a write token even for PRs from
+# forks. This is safe because the job only reads the PR diff via the API
+# (pulls.listFiles) and makes outbound fetch() calls to the extracted URLs -- it
+# never checks out or runs the PR's code, and never sends the token to a URL.
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check added entry links for 404/410
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const number = context.payload.pull_request.number;
+
+            const MARKER = "<!-- pr-link-check -->";
+
+            // Tunables. MAX_URLS caps how many hosts a single PR can make us
+            // hit; CONCURRENCY bounds parallel requests; TIMEOUT_MS aborts slow
+            // hosts so the job can't hang.
+            const MAX_URLS = 50;
+            const CONCURRENCY = 8;
+            const TIMEOUT_MS = 10000;
+            const DEAD = new Set([404, 410]);
+            const UA =
+              "Mozilla/5.0 (compatible; Awesome-Japanese-linkcheck/1.0; " +
+              "+https://github.com/yudataguy/Awesome-Japanese)";
+
+            // The PR template carries example entries with placeholder links --
+            // skip it so its samples don't get probed.
+            const IGNORE_FILES = new Set([".github/pull_request_template.md"]);
+
+            // Pull every URL out of one added Markdown list-item line. Handles
+            // both `[text](url)` link targets (dropping any "title" suffix) and
+            // bare https?:// links, trimming trailing punctuation.
+            function extractUrls(line) {
+              const urls = [];
+              // Markdown link targets: ](url) or ](url "title") or ](<url>)
+              for (const m of line.matchAll(/\]\(\s*<?([^)\s>]+)>?[^)]*\)/g)) {
+                urls.push(m[1]);
+              }
+              // Bare URLs not already captured above.
+              for (const m of line.matchAll(/https?:\/\/[^\s)\]<>"']+/g)) {
+                urls.push(m[0]);
+              }
+              return urls
+                .map((u) => u.replace(/[.,;:!?]+$/, "")) // strip trailing punct
+                .filter((u) => /^https?:\/\//i.test(u));
+            }
+
+            async function fetchStatus(url, method) {
+              const res = await fetch(url, {
+                method,
+                redirect: "follow",
+                headers: { "User-Agent": UA, Accept: "*/*" },
+                signal: AbortSignal.timeout(TIMEOUT_MS),
+              });
+              return res.status;
+            }
+
+            // One probe: HEAD, falling back to GET when the host rejects HEAD.
+            // Returns the numeric status, or null when we couldn't verify
+            // (network error / timeout).
+            async function probe(url) {
+              let status;
+              try {
+                status = await fetchStatus(url, "HEAD");
+              } catch {
+                return null;
+              }
+              if (status === 405 || status === 501 || status === 403) {
+                // Some hosts disallow HEAD or block it specifically; retry GET.
+                try {
+                  status = await fetchStatus(url, "GET");
+                } catch {
+                  return null;
+                }
+              }
+              return status;
+            }
+
+            // Dead only if 404/410 on BOTH the initial probe and a retry. The
+            // retry guards against transient CDN 404s.
+            async function deadCode(url) {
+              const first = await probe(url);
+              if (first === null || !DEAD.has(first)) return 0;
+              const second = await probe(url);
+              if (second === null || !DEAD.has(second)) return 0;
+              return second;
+            }
+
+            // Read the PR diff via the API (no checkout of untrusted code).
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner,
+              repo,
+              pull_number: number,
+              per_page: 100,
+            });
+
+            // Collect unique URLs, remembering the first entry each came from.
+            const seen = new Map(); // url -> { file, text }
+            for (const f of files) {
+              if (IGNORE_FILES.has(f.filename)) continue;
+              if (!/\.md$/i.test(f.filename)) continue;
+              if (!f.patch) continue; // binary / too-large diffs carry no patch
+              for (const line of f.patch.split("\n")) {
+                if (!line.startsWith("+") || line.startsWith("+++")) continue;
+                const added = line.slice(1);
+                if (!/^\s*[-*]\s/.test(added)) continue; // list entries only
+                for (const url of extractUrls(added)) {
+                  if (!seen.has(url)) {
+                    seen.set(url, { file: f.filename, text: added.trim() });
+                  }
+                }
+              }
+            }
+
+            let urls = [...seen.keys()];
+            let truncated = false;
+            if (urls.length > MAX_URLS) {
+              truncated = true;
+              core.warning(
+                `PR #${number}: ${urls.length} added links; checking first ${MAX_URLS}.`
+              );
+              urls = urls.slice(0, MAX_URLS);
+            }
+
+            // Probe with bounded concurrency.
+            const offenders = []; // { file, text, url, code }
+            for (let i = 0; i < urls.length; i += CONCURRENCY) {
+              const batch = urls.slice(i, i + CONCURRENCY);
+              const results = await Promise.all(
+                batch.map(async (url) => ({ url, code: await deadCode(url) }))
+              );
+              for (const { url, code } of results) {
+                if (code) {
+                  const { file, text } = seen.get(url);
+                  offenders.push({ file, text, url, code });
+                }
+              }
+            }
+
+            const clean = offenders.length === 0;
+
+            // Find an existing sticky comment from this workflow.
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: number,
+              per_page: 100,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(MARKER));
+
+            if (clean) {
+              // Only touch the thread if we'd previously flagged something.
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner,
+                  repo,
+                  comment_id: existing.id,
+                  body: `${MARKER}\n✅ Thanks — all newly added links are reachable.`,
+                });
+              }
+              core.info(
+                urls.length
+                  ? `Checked ${urls.length} added link(s); none returned 404/410.`
+                  : "No added entry links to check."
+              );
+              return;
+            }
+
+            const lines = [
+              MARKER,
+              "👋 Thanks for the contribution! These newly added links look **unreachable** (HTTP 404/410):",
+              "",
+              ...offenders.map(
+                (o) => `- \`${o.file}\`: ${o.url} → **${o.code}**`
+              ),
+              "",
+              "Please double-check the URL — it may have moved or the page may be gone. " +
+                "Temporary outages and bot-blocked hosts (403/429/5xx/timeouts) are **not** flagged, " +
+                "so these are very likely genuinely dead.",
+              "",
+              "This check is informational and won't block your PR. Editing it re-runs the check automatically.",
+            ];
+            if (truncated) {
+              lines.push(
+                "",
+                `_Note: this PR adds more than ${MAX_URLS} links; only the first ${MAX_URLS} were checked._`
+              );
+            }
+            const message = lines.join("\n");
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body: message,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: number,
+                body: message,
+              });
+            }
+
+            // Informational only -- do NOT fail the check.
+            core.info(
+              `PR #${number}: ${offenders.length} added link(s) returned 404/410 (reported, not failing).`
+            );
