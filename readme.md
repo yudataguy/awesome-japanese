@@ -244,7 +244,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 - [Lang-8](http://lang-8.com/) - A language learning platform where native speakers correct what you write. :iphone:
 - [Discord](https://discord.com/) - Popular chatroom platform. :iphone: :computer:
   - [English-Japanese Language Exchange](https://discord.gg/NJJCYVD) - Highly active English/Japanese discord chat server.
-  - [日本語と英語](https://discord.com/invite/ri-ben-yu-toying-yu-jp-en-116379774825267202) - Another popular English/Japanese discord chat server. 
+  - [日本語と英語](https://discord.com/invite/ri-ben-yu-toying-yu-jp-en-116379774825267202) - Another popular English/Japanese discord chat server.
   - [Reddit Masterlist](https://www.reddit.com/r/languagelearning/comments/5m5426/discord_language_learning_servers_masterlist/) - Reddit masterlist of language-learning Discord servers; see the East Asian Languages section.
   - [TheMoeWay](https://discord.gg/nhqjydaR8j) - Highly active discord chat server for an immersion Japanese learner with immersion logs
 - [HelloTalk](https://www.hellotalk.com/) - Popular language exchange app. :iphone:
