@@ -237,6 +237,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 
 ## Speaking
 
+- [JIVX](https://jivx.com) - AI-graded Japanese sentence production practice, typed or spoken. :moneybag:
 - [Online Japanese Accent Dictionary](http://www.gavo.t.u-tokyo.ac.jp/ojad/) - Learn correct pitch accent to pronounce Japanese words; word lists organized by textbook.
 
 ## Community
