@@ -145,6 +145,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Listening Game for Katakana](https://www.digitaldialects.com/Japanese/Katakana.htm) - Katakana game.
   - [Katakana Practice Sheet](http://japanese-lesson.com/resources/pdf/characters/katakana_writing_practice_sheets.pdf) - Print and practice.
 - App
+  - [Kana - Hiragana and Katakana](https://apps.apple.com/us/app/kana-hiragana-and-katakana/id1454200955) - iOS app to read, write, and drill hiragana and katakana with quizzes. :iphone:
   - [Kakugo](https://play.google.com/store/apps/details?id=org.kaqui) - Android hiragana, katakana and kanji learning app :robot:
   - [Kanji Dojo](https://play.google.com/store/apps/details?id=ua.syt0r.kanji) - Android application for practicing writing Japanese characters :robot:
 - Anki Deck
