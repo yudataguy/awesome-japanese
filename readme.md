@@ -80,11 +80,11 @@ Everyone's favorite Japanese textbook. Recommended for beginners.
 *Description*: The second edition of the most highly regarded teaching textbook on the Japanese language, covering speaking, listening, reading, and writing to cultivate overall language ability. Each lesson in the revised edition features a new section dubbed "Culture Notes", and now includes the audio CD companion which is in mp3 format ready to install on any music player. In Japanese/English.
 
 - [Official](http://genki.japantimes.co.jp/index_en)
-- Amazon:moneybag:
+- Amazon :moneybag:
   - [Genki 1 Textbook](https://www.amazon.com/dp/4789014401) | [Genki 1 Workbook](https://www.amazon.com/dp/478901441X)
   - [Genki 2 Textbook](https://www.amazon.com/dp/4789014436) | [Genki 2 Workbook](https://www.amazon.com/dp/4789014444)
   - [Genki Answer Key](https://www.amazon.com/dp/4789014479)
-- Anki Deck:card_index:
+- Anki Deck :card_index:
   - [Genki 1 & 2](https://ankiweb.net/shared/info/1132238466) - All the vocab from Genki 1 & 2 and more. :warning: Still updating.
 - [Unofficial](https://sethclydesdale.github.io/genki-study-resources/) - Study tool.
 
@@ -94,7 +94,7 @@ The "Tobira" textbook combines the practice of all four language skills (reading
 The primary goals of this textbook are to solidify the grammar, vocabulary and kanji foundation studied during the beginner level and to develop all 4 language skills. What makes this book unique is that you can learn Japanese using multimedia in addition to the textbook.
 
 - [Official](http://tobiraweb.9640.jp/) - Unlock multimedia content and Anki deck with special code in the textbook.
-- Amazon:moneybag:
+- Amazon :moneybag:
   - [Tobira Textbook](https://www.amazon.com/dp/4874244475)
   - [Tobira: Power Up Your Kanji](https://www.amazon.com/dp/4874244874) - Covers 800 kanji total: 297 from beginner textbooks plus 503 introduced in Tobira.
   - [Tobira: Grammar Power](https://www.amazon.com/dp/4874245706) - Japanese grammar skill build up book.
@@ -104,7 +104,7 @@ The primary goals of this textbook are to solidify the grammar, vocabulary and k
 Similarly to Tobira, Minna no Nihongo is intended for intermediate-level students.
 
 - [Official](https://www.3anet.co.jp/en/)
-- Amazon:moneybag:
+- Amazon :moneybag:
   - [Minna no Nihongo II](https://www.amazon.com/Minna-Nihongo-II-Main-Textbook/dp/4883196461/) | [Minna no Nihongo II Workbook](https://www.amazon.com/Nihongo-Shokyu-Workbook-Hyojun-Mondaishu/dp/4883196631/)
 
 ### Other textbooks
@@ -189,7 +189,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 - [Visualize Japanese Grammar](https://www2.gwu.edu/~eall/vjg/vjghomepage/vjghome.htm) - Links to 66 animations of various grammatical structures in Japanese and 12 downloadable appendices.
 - [JGram](http://www.jgram.org/) - The Japanese Grammar Database.
 - [Maggie Sensei](http://maggiesensei.com/) - Conversational Grammar.
-- :book:Amazon:moneybag:
+- :book: Amazon :moneybag:
   - [A Dictionary of Basic Japanese Grammar](https://www.amazon.com/dp/4789004546) - Popular Japanese grammar dictionary series. :baby:
   - [A Dictionary of Intermediate Japanese Grammar](https://www.amazon.com/dp/4789007758) - :man:
   - [A Dictionary of Advanced Japanese Grammar](https://www.amazon.com/dp/4789012956) - :older_man:
@@ -326,6 +326,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [How to Install Japanese Keyboard on Everything](https://www.tofugu.com/japanese/how-to-install-japanese-keyboard/) - Guide by Tofugu.
   - [meikipop](https://github.com/rtr46/meikipop) - OCR based popup dictionary. Can be used to perform lookups with games, manga and hardsubs :computer:
 - Browser Extension:satellite:
+- Browser Extension :satellite:
   - Firefox
     - [Rikaichamp](https://addons.mozilla.org/en-US/firefox/addon/rikaichamp/) - Japanese to English/German/French/Russian popup dictionary; hover a word for a definition.
   - Chrome
