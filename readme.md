@@ -84,8 +84,6 @@ Everyone's favorite Japanese textbook. Recommended for beginners.
   - [Genki 1 Textbook](https://www.amazon.com/dp/4789014401) | [Genki 1 Workbook](https://www.amazon.com/dp/478901441X)
   - [Genki 2 Textbook](https://www.amazon.com/dp/4789014436) | [Genki 2 Workbook](https://www.amazon.com/dp/4789014444)
   - [Genki Answer Key](https://www.amazon.com/dp/4789014479)
-- Anki Deck :card_index:
-  - [Genki 1 & 2](https://ankiweb.net/shared/info/1132238466) - All the vocab from Genki 1 & 2 and more. :warning: Still updating.
 - [Unofficial](https://sethclydesdale.github.io/genki-study-resources/) - Study tool.
 
 ### Tobira :older_man:
