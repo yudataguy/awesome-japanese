@@ -18,6 +18,7 @@ const EMOJI = {
   satellite: "📡", jp: "🇯🇵", japan: "🗾", moneybag: "💰", warning: "⚠️",
   book: "📖", card_index: "🗂️", tv: "📺", headphones: "🎧", mag: "🔍",
   scroll: "📜", pencil: "✏️", bulb: "💡", star: "⭐", fire: "🔥",
+  robot: "🤖",
 };
 
 const slug = (s) =>
@@ -30,8 +31,23 @@ function buildContent(md) {
   const idx = md.indexOf(startMarker);
   let body = idx >= 0 ? md.slice(idx) : md;
 
-  // Convert :shortcode: emoji.
-  body = body.replace(/:([a-z0-9_+-]+):/g, (m, name) => EMOJI[name] ?? m);
+  // Convert :shortcode: emoji. Warn on any shortcode we don't map, so a new
+  // legend entry can't silently ship as literal ":name:" text on the page.
+  const unmapped = new Set();
+  body = body.replace(/:([a-z0-9_+-]+):/g, (m, name) => {
+    if (!(name in EMOJI)) {
+      unmapped.add(name);
+      return m;
+    }
+    return EMOJI[name];
+  });
+  if (unmapped.size) {
+    console.warn(
+      `⚠️  Unmapped emoji shortcode(s) left as literal text: ${[...unmapped]
+        .map((n) => `:${n}:`)
+        .join(", ")}. Add them to EMOJI in site/build.mjs.`
+    );
+  }
 
   let html = marked.parse(body, { gfm: true });
 
