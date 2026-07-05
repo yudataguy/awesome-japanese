@@ -114,7 +114,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - Amazon :moneybag:
   - [Quartet 1 Textbook](https://www.amazon.com/dp/4789016951) | [Quartet 1 Workbook](https://www.amazon.com/dp/478901696X)
   - [Quartet 2 Textbook](https://www.amazon.com/dp/4789017451) | [Quartet 2 Workbook](https://www.amazon.com/dp/478901746X)
-- [Quartet Vocab & Kanji app](https://play.google.com/store/apps/details?id=jp.quartet) - Flashcards, kanji stroke-order, and timed quizzes for the series' vocab. :iphone:
+- [Quartet Vocab & Kanji app](https://play.google.com/store/apps/details?id=jp.quartet) - Flashcards, kanji stroke-order, and timed quizzes for the series' vocab. :iphone: :moneybag:
 
 ### Other textbooks
 
