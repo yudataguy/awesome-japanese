@@ -270,6 +270,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [Natural Japanese](https://www.youtube.com/@nijapanese) - YouTube channel with great playlists for complete beginners. CIJ after split.
   - [Nihongo no Jikan](https://www.youtube.com/@nihongo-no-jikan) - Other half of CIJ has great videos for beginners.
   - [Game Gengo](https://www.youtube.com/@gamegengo) - YouTube channel dedicated to helping you learn Japanese through Video Games !
+  - [Japanese with Shun](https://www.youtube.com/@JapanesewithShun) - Easy Japanese comprehensible input with vlogs, interviews, and travel for N5-N3 learners. :baby: :man:
 - News
   - [BBC News in Japanese](https://www.youtube.com/channel/UCCcey5CP5GDZeom987gqTdg) - BBC News in Japanese language YouTube channel.
   - [Asahi News](https://www.youtube.com/user/ANNnewsCH) - Asahi News YouTube channel.
