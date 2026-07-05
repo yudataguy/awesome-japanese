@@ -14,6 +14,7 @@
     - [Genki :baby:](#genki-baby)
     - [Tobira :older\_man:](#tobira-older_man)
     - [Minna no Nihongo :man:](#minna-no-nihongo-man)
+    - [Quartet :man:](#quartet-man)
     - [Other textbooks](#other-textbooks)
   - [Course](#course)
   - [Hiragana and Katakana](#hiragana-and-katakana)
@@ -104,6 +105,16 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 - [Official](https://www.3anet.co.jp/en/)
 - Amazon :moneybag:
   - [Minna no Nihongo II](https://www.amazon.com/Minna-Nihongo-II-Main-Textbook/dp/4883196461/) | [Minna no Nihongo II Workbook](https://www.amazon.com/Nihongo-Shokyu-Workbook-Hyojun-Mondaishu/dp/4883196631/)
+
+### Quartet :man:
+
+The natural successor to beginner textbooks like Genki, Quartet develops all four language skills (reading, writing, speaking, listening) across two volumes, progressing from JLPT N3 in Volume 1 to N2 in Volume 2. Downloadable resources and a companion Vocab & Kanji app are available.
+
+- [Official](https://quartet.japantimes.co.jp/en/) - Audio, downloadable resources, and teacher materials.
+- Amazon :moneybag:
+  - [Quartet 1 Textbook](https://www.amazon.com/dp/4789016951) | [Quartet 1 Workbook](https://www.amazon.com/dp/478901696X)
+  - [Quartet 2 Textbook](https://www.amazon.com/dp/4789017451) | [Quartet 2 Workbook](https://www.amazon.com/dp/478901746X)
+- [Quartet Vocab & Kanji app](https://play.google.com/store/apps/details?id=jp.quartet) - Flashcards, kanji stroke-order, and timed quizzes for the series' vocab. :iphone: :moneybag:
 
 ### Other textbooks
 
