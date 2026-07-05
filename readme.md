@@ -139,7 +139,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Hiragana Practice Sheet](http://japanese-lesson.com/resources/pdf/characters/hiragana_writing_practice_sheets.pdf) - Print and practice.
   - [Listening Game for Hiragana](https://www.digitaldialects.com/Japanese/Hiragana.htm) - Hiragana game.
   - [Kana SH](https://kana.rezoleo.fr) - Practice Hiragana in a terminal fashion ([sources](https://github.com/benoitlx/kanash)). 💻
-  - [Keiko](https://keiko-jp.com) - Browser typing tutor: type kana, kanji, and JLPT N5–N3 sentences; switchable romaji hints. :computer: :moneybag: :robot:
+  - [Keiko](https://keiko-jp.com) - Browser typing tutor: type kana, kanji, and JLPT N5–N3 sentences; switchable romaji hints. :computer: :moneybag:
 - Katakana
   - [Tofugu for Katakana](https://www.tofugu.com/japanese/learn-katakana/) - Katakana lesson.
   - [Learn Katakana in 1 Hour](https://youtu.be/s6DKRgtVLGA) - Katakana video lesson.
