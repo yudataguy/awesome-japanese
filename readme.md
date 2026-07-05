@@ -236,7 +236,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 
 ## Speaking
 
-- [Online Japanese Accent Dictionary](http://www.gavo.t.u-tokyo.ac.jp/ojad/) - Learn correct pitch accent to pronounce Japanese words; word lists organized by textbook.
+- [Online Japanese Accent Dictionary](http://www.gavo.t.u-tokyo.ac.jp/ojad/) - Learn correct pitch accent to pronounce Japanese words; word lists organized by textbook. :japan:
 
 ## Community
 
