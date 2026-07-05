@@ -131,6 +131,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [Hiragana Practice Sheet](http://japanese-lesson.com/resources/pdf/characters/hiragana_writing_practice_sheets.pdf) - Print and practice.
   - [Listening Game for Hiragana](https://www.digitaldialects.com/Japanese/Hiragana.htm) - Hiragana game.
   - [Kana SH](https://kana.rezoleo.fr) - Practice Hiragana in a terminal fashion ([sources](https://github.com/benoitlx/kanash)). 💻
+  - [Keiko](https://keiko-jp.com) - Browser typing tutor: type kana, kanji, and JLPT N5–N3 sentences; switchable romaji hints. :computer: :moneybag:
 - Katakana
   - [Tofugu for Katakana](https://www.tofugu.com/japanese/learn-katakana/) - Katakana lesson.
   - [Learn Katakana in 1 Hour](https://youtu.be/s6DKRgtVLGA) - Katakana video lesson.
@@ -224,6 +225,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 - [Delvin](https://delvinlanguage.com) - Practice Japanese listening and reading with authentic Japanese video.
 - [mykikitori](https://www.mykikitori.com/) - Practice your Japanese listening skills.
 - [Tsunahiro](https://tsunagarujp.bunka.go.jp) - Website for Foreign Nationals as Residents to Learn Japanese Language
+- [ListenRadio (リスラジ)](https://listenradio.jp/) - Live streams from community FM stations across Japan. :jp: :japan: :iphone:
 - Podcast
   - [Podcast Ranking](https://podcastranking.jp/) - Japanese Podcast ranking website, discover Japanese language podcasts.
   - [Learn Japanese Pod](https://learnjapanesepod.com/) - Japanese language learning podcast.
@@ -236,6 +238,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 
 ## Speaking
 
+- [JIVX](https://jivx.com) - AI-graded Japanese sentence production practice, typed or spoken. :moneybag:
 - [Online Japanese Accent Dictionary](http://www.gavo.t.u-tokyo.ac.jp/ojad/) - Learn correct pitch accent to pronounce Japanese words; word lists organized by textbook.
 
 ## Community
@@ -320,6 +323,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [Human Japanese](https://www.humanjapanese.com) - Popular Japanese learning program. :iphone: :computer: :moneybag:
   - [Google Japanese Input](https://www.google.co.jp/ime/) - Google Japanese Input, available on Windows, Mac, and Android. :computer: :robot:
   - [How to Install Japanese Keyboard on Everything](https://www.tofugu.com/japanese/how-to-install-japanese-keyboard/) - Guide by Tofugu.
+  - [meikipop](https://github.com/rtr46/meikipop) - OCR based popup dictionary. Can be used to perform lookups with games, manga and hardsubs :computer:
 - Browser Extension:satellite:
   - Firefox
     - [Rikaichamp](https://addons.mozilla.org/en-US/firefox/addon/rikaichamp/) - Japanese to English/German/French/Russian popup dictionary; hover a word for a definition.
