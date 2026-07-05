@@ -308,7 +308,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Weblio](https://www.weblio.jp/) - Comprehensive Japanese dictionary portal. :jp:
   - [Google Translate](https://translate.google.com/) - Supports voice and image translation, mobile app supports offline translation. :iphone:
   - [語源由来辞典 / Gogen Yurai jiten](https://gogen-yurai.jp/) - Etymology of Japanese. :man:
-  - [Goo 辞書 / Goo Dictionary](https://dictionary.goo.ne.jp/) - Online Japanese dictionary. :jp:
+  - [Goo 辞書 / Goo Dictionary](https://dictionary.goo.ne.jp/) - Online Japanese dictionary. :jp: :iphone:
 
 - Software
   - [Houhou](http://houhou-srs.com/) - The dictionary doubles as a learning tool. :computer:
