@@ -48,6 +48,7 @@
 | :warning:    | warning             |
 | :book:       | book                |
 | :card_index: | Anki deck           |
+| :robot:      | generative AI       |
 
 ## Beginner Guide
 
@@ -138,7 +139,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Hiragana Practice Sheet](http://japanese-lesson.com/resources/pdf/characters/hiragana_writing_practice_sheets.pdf) - Print and practice.
   - [Listening Game for Hiragana](https://www.digitaldialects.com/Japanese/Hiragana.htm) - Hiragana game.
   - [Kana SH](https://kana.rezoleo.fr) - Practice Hiragana in a terminal fashion ([sources](https://github.com/benoitlx/kanash)). 💻
-  - [Keiko](https://keiko-jp.com) - Browser typing tutor: type kana, kanji, and JLPT N5–N3 sentences; switchable romaji hints. :computer: :moneybag:
+  - [Keiko](https://keiko-jp.com) - Browser typing tutor: type kana, kanji, and JLPT N5–N3 sentences; switchable romaji hints. :computer: :moneybag: :robot:
 - Katakana
   - [Tofugu for Katakana](https://www.tofugu.com/japanese/learn-katakana/) - Katakana lesson.
   - [Learn Katakana in 1 Hour](https://youtu.be/s6DKRgtVLGA) - Katakana video lesson.
@@ -146,8 +147,8 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Katakana Practice Sheet](http://japanese-lesson.com/resources/pdf/characters/katakana_writing_practice_sheets.pdf) - Print and practice.
 - App
   - [Kana - Hiragana and Katakana](https://apps.apple.com/us/app/kana-hiragana-and-katakana/id1454200955) - iOS app to read, write, and drill hiragana and katakana with quizzes. :iphone:
-  - [Kakugo](https://play.google.com/store/apps/details?id=org.kaqui) - Android hiragana, katakana and kanji learning app :robot:
-  - [Kanji Dojo](https://play.google.com/store/apps/details?id=ua.syt0r.kanji) - Android application for practicing writing Japanese characters :robot:
+  - [Kakugo](https://play.google.com/store/apps/details?id=org.kaqui) - Android hiragana, katakana and kanji learning app :iphone:
+  - [Kanji Dojo](https://play.google.com/store/apps/details?id=ua.syt0r.kanji) - Android application for practicing writing Japanese characters :iphone:
 - Anki Deck
   - [Hiragana + Katakana w/ Audio & Stroke Order](https://ankiweb.net/shared/info/1632090287) - :card_index:
 
@@ -183,7 +184,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - [SakeSaySo](https://sakesayso.com/) - Japanese-English dictionary app with SRS flashcards, daily news translations, and offline support. :iphone:
 - [hifumi](https://vitto4.github.io/hifumi/) - A flashcards companion app tailored for Minna no Nihongo Shokyū I & II textbooks ([sources](https://github.com/vitto4/hifumi)). :iphone: :computer:
 - [Pokelingo](https://pokelingo.io/en/riddle/?lang=ja) - Daily puzzle: read a Pokédex entry in Japanese and guess the Pokémon; all 1,025 names in katakana. :iphone: :baby:
-- [KaChiKa JA](https://kachika.app/) - AI photo-to-vocabulary app with example sentences and FSRS review; images stored on-device. :iphone: :moneybag:
+- [KaChiKa JA](https://kachika.app/) - AI photo-to-vocabulary app with example sentences and FSRS review; images stored on-device. :iphone: :moneybag: :robot:
 - [WordMeadow](https://wordmeadow.app/learn/japanese/from/english/themes) - Visual Japanese vocabulary theme cards grouped by everyday topics. :computer: :baby:
 
 ## Grammar
@@ -240,7 +241,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 
 ## Speaking
 
-- [JIVX](https://jivx.com) - AI-graded Japanese sentence production practice, typed or spoken. :moneybag:
+- [JIVX](https://jivx.com) - AI-graded Japanese sentence production practice, typed or spoken. :moneybag: :robot:
 - [Online Japanese Accent Dictionary](http://www.gavo.t.u-tokyo.ac.jp/ojad/) - Learn correct pitch accent to pronounce Japanese words; word lists organized by textbook.
 
 ## Community
@@ -309,7 +310,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 
 - Software
   - [Houhou](http://houhou-srs.com/) - The dictionary doubles as a learning tool. :computer:
-  - [Takoboto](https://play.google.com/store/apps/details?id=jp.takoboto) - Android Japanese dictionary app, also has web and computer based version. :robot: :computer:
+  - [Takoboto](https://play.google.com/store/apps/details?id=jp.takoboto) - Android Japanese dictionary app, also has web and computer based version. :iphone: :computer:
   - [imiwa?](https://www.imiwaapp.com/) - iOS Japanese dictionary app. :iphone:
   - [Tagaini Jisho](https://www.tagaini.net/) - Open-source Japanese dictionary and kanji lookup tool for Windows, MacOS X and Linux.
   - [Jiten](https://jiten.obfusk.dev/) - Japanese dictionary and kanji lookup; web version plus an offline Android app on F-Droid. :iphone: :computer:
@@ -320,7 +321,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 
 - Computer
   - [Human Japanese](https://www.humanjapanese.com) - Popular Japanese learning program. :iphone: :computer: :moneybag:
-  - [Google Japanese Input](https://www.google.co.jp/ime/) - Google Japanese Input, available on Windows, Mac, and Android. :computer: :robot:
+  - [Google Japanese Input](https://www.google.co.jp/ime/) - Google Japanese Input, available on Windows, Mac, and Android. :computer: :iphone:
   - [How to Install Japanese Keyboard on Everything](https://www.tofugu.com/japanese/how-to-install-japanese-keyboard/) - Guide by Tofugu.
   - [meikipop](https://github.com/rtr46/meikipop) - OCR based popup dictionary. Can be used to perform lookups with games, manga and hardsubs :computer:
 - Browser Extension :satellite:
