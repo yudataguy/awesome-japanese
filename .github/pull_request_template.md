@@ -3,6 +3,7 @@
 ## Description
 <!-- Briefly describe what you are adding or changing -->
 <!-- Pricing: do NOT use the word "free" — items without `:moneybag:` are already considered free. If the item has freemium tiers, in-app purchases, or paid plans, add the `:moneybag:` emoji. -->
+<!-- Generative AI: add the `:robot:` emoji if the item uses generative AI in the product, or if AI did most (>50%) of building it — see the AI Assistance survey below. -->
 
 ## Type of change
 <!-- Put an `x` in all the boxes that apply -->
@@ -18,6 +19,7 @@
 - [ ] The link is working and points to the intended content
 - [ ] The description is concise and informative, and does not use the word "free" (items without `:moneybag:` are already considered free)
 - [ ] Pricing is marked correctly: I added the `:moneybag:` emoji if the item has freemium tiers, in-app purchases, or paid plans
+- [ ] Generative AI is marked correctly: I added the `:robot:` emoji if the item uses generative AI in the product, or if generative AI did most (>50%) of building it
 - [ ] If the item starts charging money after this PR is merged (paid plans, in-app purchases, or freemium tiers), I will revise its description here to add the `:moneybag:` emoji — otherwise the entry may be removed without warning
 - [ ] Item description is under 100 characters (excluding emoji)
 - [ ] I have added the item to the appropriate category

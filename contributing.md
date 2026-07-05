@@ -46,6 +46,7 @@ Add each item as a single list line in the form:
 - Prefer `https://` links, and confirm the link works before submitting.
 - **Pricing:** don't use the word "free" in a description — items without the `:moneybag:` emoji are already treated as free, so it's redundant. If the item has freemium tiers, in-app purchases, or paid plans, add `:moneybag:` instead. See the emoji legend at the top of the [readme](readme.md).
 - **Pricing changes after merge:** if an item starts charging money later (paid plans, in-app purchases, or freemium tiers), please open a pull request to revise its description and add the `:moneybag:` emoji. Entries that begin charging without being updated may be removed without warning.
+- **Generative AI:** add the `:robot:` emoji if either applies — the item **uses** generative AI in the product itself (e.g. an AI tutor, AI-graded practice, or AI-generated example sentences), *or* the item was **mostly built with** generative AI, meaning AI did most of the work (the *"Mostly AI (>50%)"* answer in the pull request's AI Assistance survey). Light AI assistance during development is now common and does **not** qualify on its own — the bar is >50%. This is a neutral tag for transparency, not a judgment of quality. See the emoji legend at the top of the [readme](readme.md).
 
 ## Guidelines
 
