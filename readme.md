@@ -113,10 +113,10 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 
 - [Easy Japanese](https://www.nhk.or.jp/lesson/english/index.html) - Made by NHK in multiple languages :baby:
 
-- [Erin's Challenge](https://www.erin.ne.jp/en/) - Video based Japanese lessons :man:
+- [Erin's Challenge](https://www.erin.jpf.go.jp/en/) - Video based Japanese lessons :man:
 - [LingoDeer](https://www.lingodeer.com/) - Duolingo-style app whose courses focus on East Asian languages. :iphone:
 - [NativShark](https://nativshark.com/) - All in one Japanese learning platform, combining vocab, grammar, kanji and speaking practice. :moneybag:
-- [NHK 高校講座 / NHK High School Course](https://www.nhk.or.jp/kokokoza/) - NHK high-school video/audio lessons; good for basic vocabulary across many fields. :man:
+- [NHK 高校講座 / NHK High School Course](https://www.nhk.or.jp/kokokoza/) - NHK high-school video/audio lessons; good for basic vocabulary across many fields. :man: :japan:
 - [Drops: Language learning app](https://languagedrops.com/) - Duolingo-like app which offers 5 minutes/day free flashcards-based app separated by categories. :iphone:
 
 ## Hiragana and Katakana
