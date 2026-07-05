@@ -57,7 +57,6 @@
 
 - [Starter's Guide](https://www.reddit.com/r/LearnJapanese/wiki/index/startersguide) - From /r/learnjapanese subreddit.
 - [DJT guide](https://djtguide.neocities.org/guide.html) - A well-written guide.
-- [Japanese Walkthrough](http://japaneselevelup.com/japanese-quest-walkthrough/) - A visual learning guide.
 - [Grammar Guide to Japanese](https://www.guidetojapanese.org/learn/grammar) - By Tae Kim (Note: Tae Kim also has a "Complete Guide to Japanese", which is a work in progress).
 - [The Moe Way](https://learnjapanese.moe/guide/) - Fundamentals guide plus setup walkthroughs for immersion tools like visual novel text hooks.
 
@@ -146,7 +145,6 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Listening Game for Katakana](https://www.digitaldialects.com/Japanese/Katakana.htm) - Katakana game.
   - [Katakana Practice Sheet](http://japanese-lesson.com/resources/pdf/characters/katakana_writing_practice_sheets.pdf) - Print and practice.
 - App
-  - [Hiragana and Katakana](https://itunes.apple.com/us/app/hiragana-and-katakana-complete-basics-of-japanese/id385817288?mt=8) - iOS Hiragana and Katakana learning app :iphone:
   - [Kakugo](https://play.google.com/store/apps/details?id=org.kaqui) - Android hiragana, katakana and kanji learning app :robot:
   - [Kanji Dojo](https://play.google.com/store/apps/details?id=ua.syt0r.kanji) - Android application for practicing writing Japanese characters :robot:
 - Anki Deck
@@ -166,7 +164,6 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - [Kanji alive](https://app.kanjialive.com) - Kanji study tool created by the University of Chicago.
 - [Kanjipedia](https://www.kanjipedia.jp/) - Kanji search site operated by the Japan Kanji Aptitude Testing Foundation. :jp:
 - [Kakijun](https://kakijun.jp/) - Help you find the stroke order of a kanji. :jp:
-- [Kanji Explorer](https://kanjiexplorer.com) - Navigate kanji using radicals
 - [The Kanji Map](https://thekanjimap.com) - Explore kanji decomposition as an interactive graph
 - [KanjiDraw](https://kanjidraw.com) - Kanji practice app with stroke-order puzzles, gamified drawing, and a draw-to-search dictionary. :baby:
 - [WaniAnki](https://wanianki.com) - WaniKani companion for reviewing kanji, vocab, and radicals; custom decks, filters, and quizzes. :iphone: :computer:
@@ -174,7 +171,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 ## Vocabulary
 
 - [Anki](https://apps.ankiweb.net/) - Popular flashcard based software. :iphone: :computer:
-  - [Anki User Manual](https://apps.ankiweb.net/docs/manual.html)
+  - [Anki User Manual](https://docs.ankiweb.net/)
   - [How to use Anki to Learn Japanese](https://youtu.be/dPVpsX9ZPWE) - Anki video tutorial.
   - [Nayr's Core 5000](https://www.reddit.com/r/LearnJapanese/comments/4itr0d/updated_nayrs_core_5k_anki_deck/) - :card_index: Designed around an i+1 approach where learners are exposed to more than they know.
   - [Japanese Core 2000/6000 A](https://docs.google.com/document/d/1zyyuiWkiz2IF2CCROeJebl8mgRdHBqNfS5D7MFjDTzE/edit) | [B](https://djtguide.neocities.org/anki.html) - :card_index: Popular Anki Japanese Deck Core 2k/6k
@@ -183,7 +180,6 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - [jpdb](https://jpdb.io/) - jpdb is a powerful Japanese dictionary and all-in-one learning system for kanji and vocabulary.
 - [Japanese Number Converter](https://japanesenumberconverter.com) - Japanese number converter (Kanji - Hiragana - Romaji)
 - [SakeSaySo](https://sakesayso.com/) - Japanese-English dictionary app with SRS flashcards, daily news translations, and offline support. :iphone:
-- [Japanese Drop](https://japanesedrop.com/learn) - Free grammar and vocab reference guides with audio, plus a daily lesson newsletter. :baby:
 - [hifumi](https://vitto4.github.io/hifumi/) - A flashcards companion app tailored for Minna no Nihongo Shokyū I & II textbooks ([sources](https://github.com/vitto4/hifumi)). :iphone: :computer:
 - [Pokelingo](https://pokelingo.io/en/riddle/?lang=ja) - Daily puzzle: read a Pokédex entry in Japanese and guess the Pokémon; all 1,025 names in katakana. :iphone: :baby:
 - [KaChiKa JA](https://kachika.app/) - AI photo-to-vocabulary app with example sentences and FSRS review; images stored on-device. :iphone: :moneybag:
@@ -201,7 +197,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [A Dictionary of Basic Japanese Grammar](https://www.amazon.com/dp/4789004546) - Popular Japanese grammar dictionary series. :baby:
   - [A Dictionary of Intermediate Japanese Grammar](https://www.amazon.com/dp/4789007758) - :man:
   - [A Dictionary of Advanced Japanese Grammar](https://www.amazon.com/dp/4789012956) - :older_man:
-- [Dictionary of Japanese Grammar](https://dojgdeck.neocities.org/) - :card_index: The DoJG deck allows you to review the contents of the Dictionary of Japanese Grammar through Anki.
+- [Dictionary of Japanese Grammar](https://ankiweb.net/shared/info/843402109) - :card_index: The DoJG deck allows you to review the contents of the Dictionary of Japanese Grammar through Anki.
 - [Bunpro](https://bunpro.jp/) - Grammar learning web app using SRS. :moneybag:
 - [Sakubi](https://sakubi.neocities.org/) - Basic grammar primer that doesn't try to drill you :baby:
 - [Japanese Grammar Notes](https://jpnotes.dev/) - Bilingual JLPT N5–N2 grammar notes with furigana, TTS audio, and Anki decks.
@@ -232,7 +228,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - [SuperNative](https://supernative.tv/) - Hear, read, and speak Japanese with 10,000+ short TV/movie clips. :warning: Voice practice is Chrome-only.
 - [Delvin](https://delvinlanguage.com) - Practice Japanese listening and reading with authentic Japanese video.
 - [mykikitori](https://www.mykikitori.com/) - Practice your Japanese listening skills.
-- [Tsunahiro](https://tsunagarujp.bunka.go.jp) - Website for Foreign Nationals as Residents to Learn Japanese Language
+- [Tsunahiro](https://tsunagarujp.mext.go.jp/) - Website for Foreign Nationals as Residents to Learn Japanese Language
 - [ListenRadio (リスラジ)](https://listenradio.jp/) - Live streams from community FM stations across Japan. :jp: :japan: :iphone:
 - Podcast
   - [Podcast Ranking](https://podcastranking.jp/) - Japanese Podcast ranking website, discover Japanese language podcasts.
@@ -252,7 +248,6 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 ## Community
 
 - [/r/learnjapanese](https://www.reddit.com/r/LearnJapanese/) - Learn Japanese subreddit. :iphone:
-- [Kanji Koohii Forum](https://forum.koohii.com/) - Forum which covers all aspects of Japanese learning.
 - [Lang-8](http://lang-8.com/) - A language learning platform where native speakers correct what you write. :iphone:
 - [Discord](https://discord.com/) - Popular chatroom platform. :iphone: :computer:
   - [English-Japanese Language Exchange](https://discord.gg/NJJCYVD) - Highly active English/Japanese discord chat server.
@@ -284,15 +279,13 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Asahi News](https://www.youtube.com/user/ANNnewsCH) - Asahi News YouTube channel.
   - [Asahi News Live](https://www.youtube.com/watch?v=Fu2etwHzcvw) - 24/7 Asahi News Live YouTube stream.
   - [Fuji News Network](https://www.fnn-news.com/) - FNN live and VOD.
-  - [News24](https://www.news24.jp/) - News24 Channel live and VOD.
+  - [日テレNEWS24](https://www.youtube.com/channel/UCuTAXTexrhetbOe3zgskJBQ) - Nippon TV's 24-hour news channel with live stream and latest videos.
   - [Weather News Live](https://www.youtube.com/watch?v=kfTq_A9nBM0) - 24/7 Japanese Weather Channel Live stream.
   - [NIKKEI News](https://www.youtube.com/user/TouchTheNIKKEI) - NIKKEI News YouTube channel.
   - [Yomiuri News](https://www.youtube.com/user/YomiuriShimbun) - Yomiuri News YouTube channel.
 - Stream
   - [QVC Japan](https://qvc.jp/cont/live/Main?sc_initcmp=icpc_TOP_Left-Menu_005) - QVC Japan Shopping Channel Live stream.
   - [Abema TV](https://abema.tv/) - Live Japanese TV stream. :iphone: :japan:
-  - [GYAO!](https://gyao.yahoo.co.jp/) - Japanese TV programs on demand. :iphone: :japan:
-  - [FRESH!](https://freshlive.tv/) - Japanese streamer platform. :iphone:
   - [NicoNico](https://www.nicovideo.jp/) - Japanese streamer platform. :iphone:
   - [DaiWEEB](https://www.daiweeb.org/) - Japanese anime with both Japanese and English subtitles.
 - Players
@@ -322,7 +315,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Takoboto](https://play.google.com/store/apps/details?id=jp.takoboto) - Android Japanese dictionary app, also has web and computer based version. :robot: :computer:
   - [imiwa?](https://www.imiwaapp.com/) - iOS Japanese dictionary app. :iphone:
   - [Tagaini Jisho](https://www.tagaini.net/) - Open-source Japanese dictionary and kanji lookup tool for Windows, MacOS X and Linux.
-  - [Jiten](https://play.google.com/store/apps/details?id=dev.obfusk.jiten) - Android Japanese dictionary and kanji lookup app, also has web version. :robot:
+  - [Jiten](https://jiten.obfusk.dev/) - Japanese dictionary and kanji lookup; web version plus an offline Android app on F-Droid. :robot: :computer:
   - [Japanese](https://www.japaneseapp.com/) - Dictionary, stroke order and flashcards for iOS :iphone:
   - [Midori (Japanese Dictionary)](https://apps.apple.com/it/app/midori-japanese-dictionary/id385231773) - Dictionary, stroke order and flashcards for iOS :iphone: :computer:
 
@@ -336,7 +329,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - Browser Extension:satellite:
 - Browser Extension :satellite:
   - Firefox
-    - [Rikaichamp](https://addons.mozilla.org/en-US/firefox/addon/rikaichamp/) - Japanese to English/German/French/Russian popup dictionary; hover a word for a definition.
+    - [10ten Reader (formerly Rikaichamp)](https://10ten.life/en/) - Japanese to English/German/French/Russian popup dictionary; hover a word for a definition.
   - Chrome
     - [Yomitan](https://chromewebstore.google.com/detail/yomitan/likgccmbimhjbgkjambclfkhldnlhbnn) - Browser popup dictionary that helps you decipher difficult Japanese text.
     - [rikaigu](https://chrome.google.com/webstore/detail/rikaigu/gmgccdlimakdipjjogccblkaoipdklcb) - Rikaikun enhanced. Translate Japanese by hovering over words.
