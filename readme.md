@@ -251,6 +251,8 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [日本語と英語](https://discord.com/invite/ri-ben-yu-toying-yu-jp-en-116379774825267202) - Another popular English/Japanese discord chat server.
   - [Reddit Masterlist](https://www.reddit.com/r/languagelearning/comments/5m5426/discord_language_learning_servers_masterlist/) - Reddit masterlist of language-learning Discord servers; see the East Asian Languages section.
   - [TheMoeWay](https://discord.gg/nhqjydaR8j) - Highly active discord chat server for an immersion Japanese learner with immersion logs
+- [Telegram](https://telegram.org/) - Popular messenger app. :iphone: :computer:
+  - [Dekitaidan](https://t.me/dekitaidan) - Russian-speaking Telegram community for Japanese learners and resources.
 - [HelloTalk](https://www.hellotalk.com/) - Popular language exchange app. :iphone:
 
 ## Video
