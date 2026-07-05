@@ -123,6 +123,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 
 *Alphabet of Japanese language.*
 
+- [KanaDojo](https://kanadojo.com) - Free, open-source kana trainer for hiragana and katakana; desktop and mobile. :iphone: :computer:
 - Hiragana
   - [Tofugu for Hiragana](https://www.tofugu.com/japanese/learn-hiragana/) - Hiragana lesson.
   - [Learn Hiragana in 1 Hour](https://youtu.be/6p9Il_j0zjc) - Hiragana video lesson.
@@ -159,6 +160,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
 - [Kanji Explorer](https://kanjiexplorer.com) - Navigate kanji using radicals
 - [The Kanji Map](https://thekanjimap.com) - Explore kanji decomposition as an interactive graph
 - [KanjiDraw](https://kanjidraw.com) - Kanji practice app with stroke-order puzzles, gamified drawing, and a draw-to-search dictionary. :baby:
+- [KanaDojo](https://kanadojo.com) - Free, open-source kanji trainer with streamlined drills; desktop and mobile. :iphone: :computer:
 - [WaniAnki](https://wanianki.com) - WaniKani companion for reviewing kanji, vocab, and radicals; custom decks, filters, and quizzes. :iphone: :computer:
 
 ## Vocabulary
@@ -171,6 +173,7 @@ Similarly to Tobira, Minna no Nihongo is intended for intermediate-level student
   - [Japanese 10K WK Breakdown](https://mega.nz/#!AdRjlZoL!FZoz3f3jq4oFUvwa59-AN3yKuQn-mFuIgNDftHtJ8n0) - :card_index: Core 10K vocabulary, broken down by WaniKani kanji.
 - [Memrise](https://www.memrise.com/) - Popular online/app flashcard platform. :iphone:
 - [jpdb](https://jpdb.io/) - jpdb is a powerful Japanese dictionary and all-in-one learning system for kanji and vocabulary.
+- [KanaDojo](https://kanadojo.com) - Free, open-source vocabulary trainer with streamlined drills; desktop and mobile. :iphone: :computer:
 - [Japanese Number Converter](https://japanesenumberconverter.com) - Japanese number converter (Kanji - Hiragana - Romaji)
 - [SakeSaySo](https://sakesayso.com/) - Japanese-English dictionary app with SRS flashcards, daily news translations, and offline support. :iphone:
 - [Japanese Drop](https://japanesedrop.com/learn) - Free grammar and vocab reference guides with audio, plus a daily lesson newsletter. :baby:
