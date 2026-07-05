@@ -308,14 +308,13 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Weblio](https://www.weblio.jp/) - Comprehensive Japanese dictionary portal. :jp:
   - [Google Translate](https://translate.google.com/) - Supports voice and image translation, mobile app supports offline translation. :iphone:
   - [語源由来辞典 / Gogen Yurai jiten](https://gogen-yurai.jp/) - Etymology of Japanese. :man:
-  - [Goo 辞書 / Goo Dictionary](https://dictionary.goo.ne.jp/) - Online Japanese dictionary. :jp: :iphone:
 
 - Software
   - [Houhou](http://houhou-srs.com/) - The dictionary doubles as a learning tool. :computer:
   - [Takoboto](https://play.google.com/store/apps/details?id=jp.takoboto) - Android Japanese dictionary app, also has web and computer based version. :robot: :computer:
   - [imiwa?](https://www.imiwaapp.com/) - iOS Japanese dictionary app. :iphone:
   - [Tagaini Jisho](https://www.tagaini.net/) - Open-source Japanese dictionary and kanji lookup tool for Windows, MacOS X and Linux.
-  - [Jiten](https://jiten.obfusk.dev/) - Japanese dictionary and kanji lookup; web version plus an offline Android app on F-Droid. :robot: :computer:
+  - [Jiten](https://jiten.obfusk.dev/) - Japanese dictionary and kanji lookup; web version plus an offline Android app on F-Droid. :iphone: :computer:
   - [Japanese](https://www.japaneseapp.com/) - Dictionary, stroke order and flashcards for iOS :iphone:
   - [Midori (Japanese Dictionary)](https://apps.apple.com/it/app/midori-japanese-dictionary/id385231773) - Dictionary, stroke order and flashcards for iOS :iphone: :computer:
 
