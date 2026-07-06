@@ -136,7 +136,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Learn Hiragana in 1 Hour](https://youtu.be/6p9Il_j0zjc) - Hiragana video lesson.
   - [Hiragana Practice Sheet](http://japanese-lesson.com/resources/pdf/characters/hiragana_writing_practice_sheets.pdf) - Print and practice.
   - [Listening Game for Hiragana](https://www.digitaldialects.com/Japanese/Hiragana.htm) - Hiragana game.
-  - [Kana SH](https://kana.rezoleo.fr) - Practice Hiragana in a terminal fashion ([sources](https://github.com/benoitlx/kanash)). 💻
+  - [Kana SH](https://kana.rezoleo.fr) - Practice Hiragana in a terminal fashion ([sources](https://github.com/benoitlx/kanash)) :computer:.
   - [Keiko](https://keiko-jp.com) - Browser typing tutor: type kana, kanji, and JLPT N5–N3 sentences; switchable romaji hints :computer: :moneybag:.
 - Katakana
   - [Tofugu for Katakana](https://www.tofugu.com/japanese/learn-katakana/) - Katakana lesson.
@@ -289,8 +289,8 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Memento](https://github.com/ripose-jp/Memento) - An mpv-based video player for studying Japanese.
   - [animebook](https://github.com/animebook/animebook.github.io) - In-browser video player for learning Japanese with subtitles.
   - [asbplayer](https://killergerbah.github.io/asbplayer/) - Browser-based media player and Chrome extension for subtitle sentence mining.
-  - [miteiru](https://github.com/hockyy/miteiru) - Open-source Electron video player to learn Japanese and other languages. 👴
-  - [mirumoji](https://github.com/svdC1/mirumoji) - Self-hosted, open-source video player with Japanese subtitle tokenization, JMDict, and Anki export. 👴
+  - [miteiru](https://github.com/hockyy/miteiru) - Open-source Electron video player to learn Japanese and other languages :older_man:.
+  - [mirumoji](https://github.com/svdC1/mirumoji) - Self-hosted, open-source video player with Japanese subtitle tokenization, JMDict, and Anki export :older_man:.
 - Subtitles
   - [kitsunekko](https://kitsunekko.net/dirlist.php?dir=subtitles%2Fjapanese%2F) - Repository of Japanese subtitles for many series.
 - [Japanese TV Channels](https://japantv.app) - Browse Japanese TV networks on YouTube (live and latest) with an interactive player.
