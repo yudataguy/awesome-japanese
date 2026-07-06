@@ -1,15 +1,15 @@
 name: Deploy site
 
-# Builds the themed homepage from master's readme.md using the theme + build
+# Builds the themed homepage from main's readme.md using the theme + build
 # tooling that lives on the `homepage` branch, then deploys it to GitHub Pages
-# via the official artifact flow. master stays clean (learning material only);
+# via the official artifact flow. main stays clean (learning material only);
 # all website code lives on `homepage`. The TV app now lives in its own repo
 # (japantvapp -> https://japantv.app).
 # Requires: repo Settings -> Pages -> Source = "GitHub Actions".
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -28,7 +28,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - name: Check out master (content)
+      - name: Check out main (content)
         uses: actions/checkout@v4
       - name: Check out homepage branch (theme + build tooling)
         uses: actions/checkout@v4
