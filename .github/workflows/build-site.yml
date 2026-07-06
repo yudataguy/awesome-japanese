@@ -29,18 +29,18 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Check out main (content)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Check out homepage branch (theme + build tooling)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: homepage
           path: .homepage
       - name: Stage website tooling from the homepage branch
         run: |
           cp -r .homepage/site .homepage/package.json .homepage/package-lock.json .homepage/robots.txt .homepage/.nojekyll .
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: "22"
+          node-version: "24"
       - run: npm ci
       - run: node site/build.mjs
       - name: Assemble site directory
@@ -48,9 +48,9 @@ jobs:
           mkdir -p _site
           cp -r index.html assets sitemap.xml robots.txt .nojekyll _site/
           for f in readme.md mobile.md; do [ -f "$f" ] && cp "$f" _site/; done
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
       - id: deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
