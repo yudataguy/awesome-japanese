@@ -10,7 +10,7 @@ import { marked } from "marked";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 
-const SITE_URL = "https://yudataguy.github.io/Awesome-Japanese/";
+const SITE_URL = "https://yudataguy.github.io/awesome-japanese/";
 
 // GitHub emoji shortcodes used in the readme -> real emoji (so the page matches GitHub).
 const EMOJI = {
