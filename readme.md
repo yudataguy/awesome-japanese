@@ -11,7 +11,6 @@
   - [Tobira](#tobira)
   - [Minna no Nihongo](#minna-no-nihongo)
   - [Quartet](#quartet)
-  - [Other textbooks](#other-textbooks)
 - [Course](#course)
 - [Hiragana and Katakana](#hiragana-and-katakana)
 - [Kanji](#kanji)
@@ -113,10 +112,6 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Quartet 2 Textbook](https://www.amazon.com/dp/4789017451)
   - [Quartet 2 Workbook](https://www.amazon.com/dp/478901746X)
 - [Quartet Vocab & Kanji app](https://play.google.com/store/apps/details?id=jp.quartet) - Flashcards, kanji stroke-order, and timed quizzes for the series' vocab :iphone: :moneybag:.
-
-### Other textbooks
-
-[Google Drive A](https://drive.google.com/drive/folders/0B7RbJJM_m3GDWTBVRk5mcm9YMEU?resourcekey=0-QdQYKB8lfciygD4mZNdnxw&usp=sharing) | [B](https://drive.google.com/drive/folders/0B7RbJJM_m3GDUGw3VFlVWkd0bjA?resourcekey=0-J1qnxyNU3Pa1m-LqhXkSwA) - contains links to many textbooks such as Japanese for Busy People, Japanese - The Manga Way, and An Integrated Approach to Intermediate Japanese. Additionally, it also includes some reading resources such as Yotsubato, and some listening material.
 
 ## Course
 
@@ -285,6 +280,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Abema TV](https://abema.tv/) - Live Japanese TV stream :iphone: :japan:.
   - [NicoNico](https://www.nicovideo.jp/) - Japanese streamer platform :iphone:.
   - [DaiWEEB](https://www.daiweeb.org/) - Japanese anime with both Japanese and English subtitles.
+  - [JFF+ (Japan Foundation)](https://en.jff.jpf.go.jp/) - Japan Foundation streaming of Japanese films and shorts; some titles are region-restricted :warning:.
 - Players
   - [Memento](https://github.com/ripose-jp/Memento) - An mpv-based video player for studying Japanese.
   - [animebook](https://github.com/animebook/animebook.github.io) - In-browser video player for learning Japanese with subtitles.
