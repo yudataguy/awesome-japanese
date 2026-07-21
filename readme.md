@@ -285,6 +285,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Memento](https://github.com/ripose-jp/Memento) - An mpv-based video player for studying Japanese.
   - [animebook](https://github.com/animebook/animebook.github.io) - In-browser video player for learning Japanese with subtitles.
   - [asbplayer](https://killergerbah.github.io/asbplayer/) - Browser-based media player and Chrome extension for subtitle sentence mining.
+  - [mLearn](https://mlearn.kikan.net) - Language immersion app with interactive subtitles, OCR, sentence mining, and SRS :computer: :robot:.
   - [miteiru](https://github.com/hockyy/miteiru) - Open-source Electron video player to learn Japanese and other languages :older_man:.
   - [mirumoji](https://github.com/svdC1/mirumoji) - Self-hosted, open-source video player with Japanese subtitle tokenization, JMDict, and Anki export :older_man:.
 - Subtitles
