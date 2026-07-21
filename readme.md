@@ -280,6 +280,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Abema TV](https://abema.tv/) - Live Japanese TV stream :iphone: :japan:.
   - [NicoNico](https://www.nicovideo.jp/) - Japanese streamer platform :iphone:.
   - [DaiWEEB](https://www.daiweeb.org/) - Japanese anime with both Japanese and English subtitles.
+  - [JFF+ (Japan Foundation)](https://en.jff.jpf.go.jp/) - Japan Foundation streaming of Japanese films and shorts; some titles are region-restricted :warning:.
 - Players
   - [Memento](https://github.com/ripose-jp/Memento) - An mpv-based video player for studying Japanese.
   - [animebook](https://github.com/animebook/animebook.github.io) - In-browser video player for learning Japanese with subtitles.
