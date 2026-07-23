@@ -1,0 +1,118 @@
+name: Close stale issues
+
+on:
+  schedule:
+    - cron: "30 0 * * *"
+  workflow_dispatch:
+    inputs:
+      stale_days:
+        description: "Days since latest issue activity before auto-close"
+        required: false
+        default: "90"
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+jobs:
+  close-stale-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close issues inactive for the configured window
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        env:
+          INPUT_STALE_DAYS: ${{ github.event.inputs.stale_days }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const configuredStaleDays = Number.parseInt(process.env.INPUT_STALE_DAYS, 10);
+            const STALE_DAYS = Number.isFinite(configuredStaleDays) && configuredStaleDays > 0 ? configuredStaleDays : 90;
+            const cutoffMs = STALE_DAYS * 24 * 60 * 60 * 1000;
+            const now = Date.now();
+
+            // Issues carrying any of these labels are never auto-closed.
+            const EXEMPT_LABELS = new Set(["pinned", "keep-open", "security"]);
+
+            // Build the set of issues that an open PR is actively tackling. Their
+            // fate follows the PR: they are closed by close-stale-change-request-prs.yml
+            // when (and only when) that PR is closed for inactivity, never on their own.
+            const openPulls = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: "open",
+              per_page: 100,
+            });
+
+            const issuesWithOpenPR = new Set();
+            for (const pr of openPulls) {
+              const response = await github.graphql(
+                `query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    pullRequest(number: $number) {
+                      closingIssuesReferences(first: 50) {
+                        nodes { number }
+                      }
+                    }
+                  }
+                }`,
+                { owner, repo, number: pr.number }
+              );
+              const nodes = response.repository.pullRequest.closingIssuesReferences.nodes || [];
+              for (const node of nodes) {
+                issuesWithOpenPR.add(node.number);
+              }
+            }
+            core.info(`${issuesWithOpenPR.size} issue(s) are linked to an open PR and will be skipped.`);
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: "open",
+              per_page: 100,
+            });
+
+            core.info(`Found ${issues.length} open item(s) (issues and PRs).`);
+
+            for (const issue of issues) {
+              // listForRepo returns PRs too; skip them (PRs have a pull_request field).
+              if (issue.pull_request) {
+                continue;
+              }
+
+              const exempt = (issue.labels || []).some((label) => {
+                const name = typeof label === "string" ? label : label.name;
+                return name && EXEMPT_LABELS.has(name.toLowerCase());
+              });
+              if (exempt) {
+                continue;
+              }
+
+              if (issuesWithOpenPR.has(issue.number)) {
+                core.info(`Issue #${issue.number} is linked to an open PR; skipping.`);
+                continue;
+              }
+
+              const lastActivityAt = Date.parse(issue.updated_at);
+              if (!Number.isFinite(lastActivityAt) || now - lastActivityAt < cutoffMs) {
+                continue;
+              }
+
+              const lastActivityDate = new Date(lastActivityAt).toISOString().slice(0, 10);
+              core.info(`Closing issue #${issue.number} after ${STALE_DAYS}+ days of inactivity.`);
+
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: issue.number,
+                body: `Closing this issue.\n\nReason: there has been no activity since ${lastActivityDate} (over ${STALE_DAYS} days).\n\nPlease reopen or open a new issue if this is still relevant.`,
+              });
+
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: issue.number,
+                state: "closed",
+                state_reason: "not_planned",
+              });
+            }
