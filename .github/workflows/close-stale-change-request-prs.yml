@@ -136,4 +136,45 @@ jobs:
                 pull_number: pr.number,
                 state: "closed",
               });
+
+              // Close any issues this PR was tackling. Because the PR was closed
+              // for inactivity (not merged), GitHub will not auto-close them, so we
+              // do it here in the same run — a separate `pull_request: closed`
+              // workflow would never fire for closes made with GITHUB_TOKEN.
+              const linkedIssuesResponse = await github.graphql(
+                `query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    pullRequest(number: $number) {
+                      closingIssuesReferences(first: 50) {
+                        nodes { number state }
+                      }
+                    }
+                  }
+                }`,
+                { owner, repo, number: pr.number }
+              );
+              const linkedIssues = linkedIssuesResponse.repository.pullRequest.closingIssuesReferences.nodes || [];
+
+              for (const issue of linkedIssues) {
+                if (issue.state !== "OPEN") {
+                  continue;
+                }
+
+                core.info(`Closing issue #${issue.number} linked to stale PR #${pr.number}.`);
+
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: issue.number,
+                  body: `Closing this issue.\n\nReason: its linked pull request #${pr.number} was closed after ${STALE_DAYS}+ days of inactivity.\n\nPlease reopen or open a new issue if this is still relevant.`,
+                });
+
+                await github.rest.issues.update({
+                  owner,
+                  repo,
+                  issue_number: issue.number,
+                  state: "closed",
+                  state_reason: "not_planned",
+                });
+              }
             }

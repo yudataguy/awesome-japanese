@@ -2,6 +2,7 @@
 
 ## Description
 <!-- Briefly describe what you are adding or changing -->
+<!-- If this PR resolves an open issue, write "Closes #<number>" here so the issue is linked and closes with this PR. -->
 <!-- Pricing: do NOT use the word "free" — items without `:moneybag:` are already considered free. If the item has freemium tiers, in-app purchases, or paid plans, add the `:moneybag:` emoji. -->
 <!-- Generative AI: add the `:robot:` emoji if the item uses generative AI in the product, or if AI did most (>50%) of building it — see the AI Assistance survey below. -->
 
@@ -23,7 +24,8 @@
 - [ ] If the item starts charging money after this PR is merged (paid plans, in-app purchases, or freemium tiers), I will revise its description here to add the `:moneybag:` emoji — otherwise the entry may be removed without warning
 - [ ] Item description is under 100 characters (excluding emoji)
 - [ ] I have added the item to the appropriate category
-- [ ] I understand this PR may be automatically closed after 90 days if there is no follow-up after a requested change
+- [ ] If this PR resolves an issue, I linked it with `Closes #<number>` in the description above
+- [ ] I understand this PR may be automatically closed after 90 days if there is no follow-up after a requested change, and that closing it will also close any issue it is linked to
 
 ## Your Role
 <!-- Please choose one option that applies to you -->
