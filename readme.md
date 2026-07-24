@@ -196,7 +196,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - [Bunpro](https://bunpro.jp/) - Grammar learning web app using SRS :moneybag:.
 - [Sakubi](https://sakubi.neocities.org/) - Basic grammar primer that doesn't try to drill you :baby:.
 - [Japanese Grammar Notes](https://jpnotes.dev/) - Bilingual JLPT N5–N2 grammar notes with furigana, TTS audio, and Anki decks.
-- [Nihongo to Japan](https://www.nihongotojapan.com/en) - Free JLPT N5–N1 grammar guides, 10,000+ practice questions with instant feedback, plus a level-check test and conjugation trainer. No signup.
+- [Nihongo to Japan](https://www.nihongotojapan.com/en) - JLPT N5–N1 grammar guides, 10,000+ practice questions with instant feedback, plus a level-check test and conjugation trainer. No signup.
 
 ## Reading
 
