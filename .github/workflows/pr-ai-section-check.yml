@@ -1,0 +1,201 @@
+name: PR AI section check
+
+# New generative AI (:robot:) items must be listed in the readme's AI section
+# first, grouped under the section they're meant for, for a 3 to 6 month
+# probation (see "Generative AI Probation" in contributing.md). This check
+# fails a pull request that:
+#   - adds a NEW :robot: item (a link not already on the list) outside the AI
+#     section,
+#   - adds an item to the AI section without a group line naming a real
+#     section (e.g. "- Vocabulary"), or
+#   - adds an item to the AI section without the :robot: emoji.
+# Moving an existing AI item out of the section is allowed: its link is
+# already on the list, and the timing is policed by the approved-issue gate.
+# Posts/updates a sticky comment and fails the check until resolved.
+#
+# Uses pull_request_target so the workflow has a write token even for PRs from
+# forks (the default for outside contributors). This is safe because the job
+# only reads readme.md at the base and head commits via the API
+# (repos.getContent) -- it never checks out or runs the PR's code.
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ai-section-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check AI items are in the AI section
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pr = context.payload.pull_request;
+            const number = pr.number;
+
+            const MARKER = "<!-- pr-ai-section-check -->";
+            const README = "readme.md";
+            const AI_SECTION = "AI";
+            // h2 sections that aren't list categories, so can't be a group.
+            const NOT_CATEGORIES = new Set([
+              AI_SECTION,
+              "Contents",
+              "How To Use These Resources",
+              "Contributing",
+              "Featured on This List",
+            ]);
+
+            // Only PRs that touch the list are in scope.
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner,
+              repo,
+              pull_number: number,
+              per_page: 100,
+            });
+            if (!files.some((f) => f.filename === README)) {
+              core.info(`${README} not changed; nothing to check.`);
+              return;
+            }
+
+            // Fetch readme.md at a commit. Fork heads are reachable from the
+            // base repo by SHA, so no checkout is needed.
+            async function readmeAt(ref) {
+              try {
+                const { data } = await github.rest.repos.getContent({ owner, repo, path: README, ref });
+                return Buffer.from(data.content, "base64").toString("utf8");
+              } catch (e) {
+                if (e.status === 404) return ""; // deleted or not yet present
+                throw e;
+              }
+            }
+
+            const normUrl = (u) => u.trim().toLowerCase().replace(/\/+$/, "");
+
+            // Walk the readme and describe every linked list item: which h2
+            // it sits under and, inside the AI section, which group line.
+            function parse(md) {
+              const items = [];
+              const categories = new Set();
+              let h2 = null;
+              let group = null; // current "- Section" line inside the AI section
+              for (const raw of md.split("\n")) {
+                const line = raw.replace(/\s+$/, "");
+                const heading = line.match(/^##\s+(.+)$/);
+                if (heading) {
+                  h2 = heading[1].trim();
+                  group = null;
+                  if (!NOT_CATEGORIES.has(h2)) categories.add(h2);
+                  continue;
+                }
+                const item = line.match(/^(\s*)[-*]\s+\[[^\]]+\]\(([^)\s]+)[^)]*\)/);
+                if (item) {
+                  items.push({
+                    line: line.trim(),
+                    url: normUrl(item[2]),
+                    h2,
+                    nested: item[1].length > 0,
+                    group,
+                    robot: line.includes(":robot:"),
+                  });
+                  continue;
+                }
+                // A plain top-level "- Name" line opens a group.
+                const groupLine = line.match(/^[-*]\s+(.+)$/);
+                if (groupLine && h2 === AI_SECTION) group = groupLine[1].trim();
+              }
+              return { items, categories };
+            }
+
+            const base = parse(await readmeAt(pr.base.sha));
+            const head = parse(await readmeAt(pr.head.sha));
+            const baseLines = new Set(base.items.map((i) => i.line));
+            const baseUrls = new Set(base.items.map((i) => i.url));
+
+            const problems = [];
+            for (const item of head.items) {
+              // Only judge lines this PR added or edited; untouched lines are
+              // someone else's history, not this contributor's responsibility.
+              if (baseLines.has(item.line)) continue;
+
+              if (item.h2 === AI_SECTION) {
+                if (!item.robot) {
+                  problems.push({ item, why: "is in the AI section but has no `:robot:` emoji. Only generative AI items belong there." });
+                } else if (!item.nested || !item.group) {
+                  problems.push({ item, why: "must be nested under a group line naming its intended section, e.g. `- Vocabulary`." });
+                } else if (!head.categories.has(item.group)) {
+                  problems.push({ item, why: `is grouped under \`- ${item.group}\`, which isn't a section of the readme. Use one of: ${[...head.categories].map((c) => `\`${c}\``).join(", ")}.` });
+                }
+              } else if (item.robot && !baseUrls.has(item.url)) {
+                problems.push({ item, why: `is a new \`:robot:\` item added under **${item.h2 ?? "(no section)"}**. New generative AI items go in the **AI** section first, grouped under their intended section, e.g. \`- ${item.h2}\`.` });
+              }
+            }
+
+            const compliant = problems.length === 0;
+
+            // Find an existing sticky comment from this workflow.
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: number,
+              per_page: 100,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(MARKER));
+
+            if (compliant) {
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner,
+                  repo,
+                  comment_id: existing.id,
+                  body: `${MARKER}\n✅ Thanks — generative AI items are in the AI section.`,
+                });
+              }
+              core.info("AI section placement looks right.");
+              return;
+            }
+
+            const message = [
+              MARKER,
+              "👋 Thanks for the contribution! Some entries aren't placed according to the **Generative AI Probation** rule:",
+              "",
+              ...problems.map((p) => `- ${p.item.line}\n  ↳ This entry ${p.why}`),
+              "",
+              "New generative AI (`:robot:`) items are listed in the **AI** section at the bottom of the readme for a 3 to 6 month probation, grouped under the section they're meant for:",
+              "",
+              "```markdown",
+              "## AI",
+              "",
+              "- Vocabulary",
+              "  - [Example](https://example.com) - Short description ending with a period :robot:.",
+              "```",
+              "",
+              `After probation, a separate approved issue and pull request moves the item to its intended section. See [Generative AI Probation](https://github.com/${owner}/${repo}/blob/main/contributing.md#generative-ai-probation).`,
+              "",
+              "Editing the PR will re-run this check automatically — no need to open a new PR.",
+            ].join("\n");
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body: message,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: number,
+                body: message,
+              });
+            }
+
+            core.setFailed(
+              `PR #${number}: ${problems.length} entr${problems.length === 1 ? "y is" : "ies are"} misplaced for the AI section rule.`
+            );

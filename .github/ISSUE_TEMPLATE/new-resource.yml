@@ -45,7 +45,10 @@ body:
     id: category
     attributes:
       label: Suggested category
-      description: Which existing section of the readme does it belong in?
+      description: >
+        Which existing section of the readme does it belong in? Generative AI
+        (`:robot:`) items are listed in the AI section first and grouped under this
+        section, then can move here after a 3 to 6 month probation.
       placeholder: Dictionaries
     validations:
       required: true
@@ -72,7 +75,8 @@ body:
       label: Generative AI
       description: >
         Gets the `:robot:` emoji if the product uses generative AI, or if generative AI
-        did most (>50%) of building it. This is a neutral transparency tag.
+        did most (>50%) of building it. This is a neutral transparency tag. Tagged
+        items start in the AI section for a 3 to 6 month probation.
       options:
         - No generative AI involved
         - The product itself uses generative AI
