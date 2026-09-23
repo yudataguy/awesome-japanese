@@ -227,6 +227,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - [mykikitori](https://www.mykikitori.com/) - Practice your Japanese listening skills.
 - [Tsunahiro](https://tsunagarujp.mext.go.jp/) - Website for Foreign Nationals as Residents to Learn Japanese Language.
 - [ListenRadio (リスラジ)](https://listenradio.jp/) - Live streams from community FM stations across Japan :jp: :japan: :iphone:.
+- [Japan Local Radio](https://radio.japantv.app) - Browse 338 community FM and NHK stations by prefecture or map :japan:.
 - Podcast
   - [Podcast Ranking](https://podcastranking.jp/) - Japanese Podcast ranking website, discover Japanese language podcasts.
   - [Learn Japanese Pod](https://learnjapanesepod.com/) - Japanese language learning podcast.
@@ -344,8 +345,6 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [KaChiKa JA](https://kachika.app/) - AI photo-to-vocabulary app with example sentences and FSRS review; images stored on-device :iphone: :moneybag: :robot:.
   - [Onomanabi](https://onomanabi.take-lab.com/) - Onomatopoeia trainer with an animation for every word, native notes, and similar-word maps :iphone: :moneybag: :robot:.
   - [WaseiGo](https://waseigo.take-lab.com/) - 1,000+ wasei-eigo words that look like English but mean something else, with illustrated dialogues :iphone: :moneybag: :robot:.
-- Listening
-  - [Japan Local Radio](https://radio.japantv.app) - Browse 338 community FM and NHK stations by prefecture or map :japan: :robot:.
 - Speaking
   - [JIVX](https://jivx.com) - AI-graded Japanese sentence production practice, typed or spoken :moneybag: :robot:.
 - Video
