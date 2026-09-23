@@ -45,6 +45,15 @@ Awesome Japanese is a curated list of genuinely useful Japanese-language content
 
 Self-nominated pull requests that don't meet these requirements, or that lack proof, will be closed. You're welcome to resubmit once the item qualifies. These requirements apply only to self-nominations — a resource nominated by an unaffiliated third party is not subject to them.
 
+### Generative AI Probation
+
+New generative AI tools appear faster than any other kind of resource on this list, and many of them change quickly or disappear. So every new item that carries the `:robot:` emoji (see *Generative AI* under [Entry Format](#entry-format)) is listed in the **AI** section at the bottom of the [readme](readme.md) first, not straight in the section it belongs to. Probation gives it time to prove it's stable and useful before it sits beside long-established resources.
+
+1. **Add it under its intended section.** Inside the AI section, items are grouped by the section they're meant for. Put yours under the matching group, for example `- Vocabulary`, and add the group if it doesn't exist yet. In your suggestion issue, the category is still the intended section. This is checked automatically: a pull request that adds a new `:robot:` item anywhere else, or puts one in the AI section without a valid group, fails the *PR AI section check*.
+2. **Probation lasts 3 to 6 months**, counted from the day the pull request that adds the item is merged. Items that were already on the list when the AI section was created began probation on 2026-09-23, the day they moved into it.
+3. **Moving out takes a new request.** Nothing moves automatically. Once an item has been in the AI section for at least 3 months, open a [*Move an item out of the AI section*](https://github.com/yudataguy/awesome-japanese/issues/new/choose) issue, wait for the `approved` label, then open a pull request that moves the line to its intended section and says `Closes #<issue number>`. Maintainers may keep an item in probation for longer, up to 6 months in total, if they need more time to evaluate it (for example after reports of broken features, poor AI output, or a pricing change).
+4. **The `:robot:` emoji stays** after the move. It's a transparency tag, not a probation marker.
+
 ### Improving Existing Resources
 
 - If you notice a resource that could be improved or updated, please open an issue detailing your proposed changes and wait for it to be approved before opening a pull request.
@@ -59,7 +68,7 @@ Before you start: if this pull request adds or changes a list item, make sure yo
 
 1. Fork the repository.
 2. Create a new branch for your contribution (`git checkout -b new-resource`).
-3. Add your resource or make your changes in the relevant section.
+3. Add your resource or make your changes in the relevant section. Items that carry the `:robot:` emoji go in the AI section, under their intended section (see *Generative AI Probation* above).
 4. Commit your changes with a clear and descriptive message (`git commit -m "Added [Resource Name]"`).
 5. Push the branch to your fork (`git push origin new-resource`).
 6. Open a pull request from your fork to the original repository.
@@ -77,7 +86,7 @@ Add each item as a single list line in the form:
 - Prefer `https://` links, and confirm the link works before submitting.
 - **Pricing:** don't use the word "free" in a description — items without the `:moneybag:` emoji are already treated as free, so it's redundant. If the item has freemium tiers, in-app purchases, or paid plans, add `:moneybag:` instead. See the emoji legend at the top of the [readme](readme.md).
 - **Pricing changes after merge:** if an item starts charging money later (paid plans, in-app purchases, or freemium tiers), please open a pull request to revise its description and add the `:moneybag:` emoji. Entries that begin charging without being updated may be removed without warning.
-- **Generative AI:** add the `:robot:` emoji if either applies — the item **uses** generative AI in the product itself (e.g. an AI tutor, AI-graded practice, or AI-generated example sentences), *or* the item was **mostly built with** generative AI, meaning AI did most of the work (the *"Mostly AI (>50%)"* answer in the pull request's AI Assistance survey). Light AI assistance during development is now common and does **not** qualify on its own — the bar is >50%. This is a neutral tag for transparency, not a judgment of quality. See the emoji legend at the top of the [readme](readme.md).
+- **Generative AI:** add the `:robot:` emoji if either applies — the item **uses** generative AI in the product itself (e.g. an AI tutor, AI-graded practice, or AI-generated example sentences), *or* the item was **mostly built with** generative AI, meaning AI did most of the work (the *"Mostly AI (>50%)"* answer in the pull request's AI Assistance survey). Light AI assistance during development is now common and does **not** qualify on its own — the bar is >50%. This is a neutral tag for transparency, not a judgment of quality. See the emoji legend at the top of the [readme](readme.md). New `:robot:` items start in the AI section (see *Generative AI Probation* above).
 
 ## Guidelines
 
@@ -88,6 +97,7 @@ Add each item as a single list line in the form:
 - Check your spelling and grammar.
 - Please disclose any affiliation if you own or are connected to the resource, so we can note it for transparency (see *Nominating Your Own App or Resource* above).
 - Self-nominated items must be at least 6 months old and, if paid, have at least 100 users, with proof (see *Eligibility for Self-Nominated Items* above).
+- New generative AI (`:robot:`) items go in the AI section for a 3 to 6 month probation. Moving one to its intended section afterwards takes a separate, approved issue and pull request (see *Generative AI Probation* above).
 - Read **Editorial Independence** below before submitting an item you're connected to.
 
 ## Editorial Independence

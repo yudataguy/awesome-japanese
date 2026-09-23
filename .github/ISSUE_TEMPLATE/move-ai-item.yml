@@ -1,0 +1,68 @@
+name: Move an item out of the AI section
+description: Ask to move a generative AI item to its intended section after probation.
+title: "[Move from AI]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        New generative AI (`:robot:`) items are listed in the AI section for a 3 to 6
+        month probation before they can move to their intended section. Items never move
+        automatically; this issue is the request.
+
+        1. You open this issue once the item has been in the AI section for at least 3 months.
+        2. A maintainer reviews it and, if accepted, applies the `approved` label. They may
+           ask for the item to stay longer, up to 6 months in total.
+        3. **Then** you open a pull request that moves the line, with `Closes #<this issue number>`
+           in the description.
+
+        See [Generative AI Probation](../blob/main/contributing.md#generative-ai-probation)
+        in the contribution guidelines.
+  - type: input
+    id: name
+    attributes:
+      label: Item
+      description: The item's name, exactly as it appears in the AI section.
+      placeholder: Example AI Tutor
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Target section
+      description: >
+        The section it should move to. Usually the group it is listed under in the AI
+        section, including any subsection (for example "Video > Players").
+      placeholder: Vocabulary
+    validations:
+      required: true
+  - type: input
+    id: since
+    attributes:
+      label: In the AI section since
+      description: >
+        When the item was added to the AI section. A link to the merged pull request
+        is best. Items moved in when the section was created count from 2026-09-23.
+      placeholder: https://github.com/yudataguy/awesome-japanese/pull/123
+    validations:
+      required: true
+  - type: textarea
+    id: changes
+    attributes:
+      label: Anything that changed during probation?
+      description: >
+        Pricing, features, ownership, or a new link. If the description or emoji need
+        updating, include the new line here.
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before you submit
+      options:
+        - label: The item has been in the AI section for at least 3 months.
+          required: true
+        - label: The link still works and the item is still actively available.
+          required: true
+        - label: I understand the `:robot:` emoji stays on the item after it moves.
+          required: true
+        - label: I understand I should wait for the `approved` label before opening a pull request.
+          required: true

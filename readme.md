@@ -23,6 +23,7 @@
 - [Video](#video)
 - [Dictionary](#dictionary)
 - [Software](#software)
+- [AI](#ai)
 - [Featured on This List](#featured-on-this-list)
 
 ## How To Use These Resources
@@ -179,10 +180,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - [SakeSaySo](https://sakesayso.com/) - Japanese-English dictionary app with SRS flashcards, daily news translations, and offline support :iphone:.
 - [hifumi](https://vitto4.github.io/hifumi/) - A flashcards companion app tailored for Minna no Nihongo Shokyū I & II textbooks ([sources](https://github.com/vitto4/hifumi)) :iphone: :computer:.
 - [Pokelingo](https://pokelingo.io/en/riddle/?lang=ja) - Daily puzzle: read a Pokédex entry in Japanese and guess the Pokémon; all 1,025 names in katakana :iphone: :baby:.
-- [KaChiKa JA](https://kachika.app/) - AI photo-to-vocabulary app with example sentences and FSRS review; images stored on-device :iphone: :moneybag: :robot:.
 - [WordMeadow](https://wordmeadow.app/learn/japanese/from/english/themes) - Visual Japanese vocabulary theme cards grouped by everyday topics :computer: :baby:.
-- [Onomanabi](https://onomanabi.take-lab.com/) - Onomatopoeia trainer with an animation for every word, native notes, and similar-word maps :iphone: :moneybag: :robot:.
-- [WaseiGo](https://waseigo.take-lab.com/) - 1,000+ wasei-eigo words that look like English but mean something else, with illustrated dialogues :iphone: :moneybag: :robot:.
 - [Ayatoki](https://ayatokigame.com/en/) - Daily Wordle-style vocabulary puzzle in rōmaji; shows kanji and meaning, JLPT N4–N1 :computer:.
   
 ## Grammar
@@ -229,7 +227,6 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - [mykikitori](https://www.mykikitori.com/) - Practice your Japanese listening skills.
 - [Tsunahiro](https://tsunagarujp.mext.go.jp/) - Website for Foreign Nationals as Residents to Learn Japanese Language.
 - [ListenRadio (リスラジ)](https://listenradio.jp/) - Live streams from community FM stations across Japan :jp: :japan: :iphone:.
-- [Japan Local Radio](https://radio.japantv.app) - Browse 338 community FM and NHK stations by prefecture or map :japan: :robot:.
 - Podcast
   - [Podcast Ranking](https://podcastranking.jp/) - Japanese Podcast ranking website, discover Japanese language podcasts.
   - [Learn Japanese Pod](https://learnjapanesepod.com/) - Japanese language learning podcast.
@@ -242,7 +239,6 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 
 ## Speaking
 
-- [JIVX](https://jivx.com) - AI-graded Japanese sentence production practice, typed or spoken :moneybag: :robot:.
 - [Online Japanese Accent Dictionary](http://www.gavo.t.u-tokyo.ac.jp/ojad/) - Learn correct pitch accent to pronounce Japanese words; word lists organized by textbook.
 
 ## Community
@@ -293,10 +289,8 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Memento](https://github.com/ripose-jp/Memento) - An mpv-based video player for studying Japanese.
   - [animebook](https://github.com/animebook/animebook.github.io) - In-browser video player for learning Japanese with subtitles.
   - [asbplayer](https://killergerbah.github.io/asbplayer/) - Browser-based media player and Chrome extension for subtitle sentence mining.
-  - [mLearn](https://mlearn.kikan.net) - Language immersion app with interactive subtitles, OCR, sentence mining, and SRS :computer: :robot:.
   - [miteiru](https://github.com/hockyy/miteiru) - Open-source Electron video player to learn Japanese and other languages :older_man:.
   - [mirumoji](https://github.com/svdC1/mirumoji) - Self-hosted, open-source video player with Japanese subtitle tokenization, JMDict, and Anki export :older_man:.
-  - [tanku Anime](https://github.com/DanielDcool/tankuanime) - Self-hosted player that hides subtitles until you pause; JMdict lookup, AI breakdown, Anki export :computer: :jp: :robot:.
 - Subtitles
   - [kitsunekko](https://kitsunekko.net/dirlist.php?dir=subtitles%2Fjapanese%2F) - Repository of Japanese subtitles for many series.
 - [Japanese TV Channels](https://japantv.app) - Browse Japanese TV networks on YouTube (live and latest) with an interactive player.
@@ -329,8 +323,6 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [How to Install Japanese Keyboard on Everything](https://www.tofugu.com/japanese/how-to-install-japanese-keyboard/) - Guide by Tofugu.
   - [meikipop](https://github.com/rtr46/meikipop) - OCR based popup dictionary. Can be used to perform lookups with games, manga and hardsubs :computer:.
   - [Origa](https://github.com/yurvon-screamo/origa) - Open source Japanese learning app — dictionaries, kanji, grammar, phrases. FSRS. RU+EN. Offline. :computer: :iphone:.
-- Web
-  - [Kanigo](https://www.kanigo.ai) - Japanese video and sentence breakdown from YouTube, uploads, or pasted text :moneybag: :robot:.
 - Browser Extension :satellite:
   - Firefox
     - [10ten Reader (formerly Rikaichamp)](https://10ten.life/en/) - Japanese to English/German/French/Russian popup dictionary; hover a word for a definition.
@@ -343,6 +335,24 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - Safari
     - [Safarikai](https://ashchan.github.io/safarikai/) - Rikaichan's Safari extension version.
     - [Toucan - Language Learning](https://jointoucan.com/) - Auto-translates select words and phrases on web pages into your target language :iphone:.
+
+## AI
+
+*New generative AI items are listed here first, grouped by the section they are meant for. After a 3 to 6 month probation they can move to that section. See the [contribution guidelines](contributing.md#generative-ai-probation).*
+
+- Vocabulary
+  - [KaChiKa JA](https://kachika.app/) - AI photo-to-vocabulary app with example sentences and FSRS review; images stored on-device :iphone: :moneybag: :robot:.
+  - [Onomanabi](https://onomanabi.take-lab.com/) - Onomatopoeia trainer with an animation for every word, native notes, and similar-word maps :iphone: :moneybag: :robot:.
+  - [WaseiGo](https://waseigo.take-lab.com/) - 1,000+ wasei-eigo words that look like English but mean something else, with illustrated dialogues :iphone: :moneybag: :robot:.
+- Listening
+  - [Japan Local Radio](https://radio.japantv.app) - Browse 338 community FM and NHK stations by prefecture or map :japan: :robot:.
+- Speaking
+  - [JIVX](https://jivx.com) - AI-graded Japanese sentence production practice, typed or spoken :moneybag: :robot:.
+- Video
+  - [mLearn](https://mlearn.kikan.net) - Language immersion app with interactive subtitles, OCR, sentence mining, and SRS :computer: :robot:.
+  - [tanku Anime](https://github.com/DanielDcool/tankuanime) - Self-hosted player that hides subtitles until you pause; JMdict lookup, AI breakdown, Anki export :computer: :jp: :robot:.
+- Software
+  - [Kanigo](https://www.kanigo.ai) - Japanese video and sentence breakdown from YouTube, uploads, or pasted text :moneybag: :robot:.
 
 ## Contributing
 
