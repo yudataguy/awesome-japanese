@@ -345,6 +345,8 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [KaChiKa JA](https://kachika.app/) - AI photo-to-vocabulary app with example sentences and FSRS review; images stored on-device :iphone: :moneybag: :robot:.
   - [Onomanabi](https://onomanabi.take-lab.com/) - Onomatopoeia trainer with an animation for every word, native notes, and similar-word maps :iphone: :moneybag: :robot:.
   - [WaseiGo](https://waseigo.take-lab.com/) - 1,000+ wasei-eigo words that look like English but mean something else, with illustrated dialogues :iphone: :moneybag: :robot:.
+- Reading
+  - [Yomimaru](https://yomimaru.app) - Guided reading from kana to N1: stories and news picked for your level, with lookups and review :computer: :moneybag: :robot:.
 - Speaking
   - [JIVX](https://jivx.com) - AI-graded Japanese sentence production practice, typed or spoken :moneybag: :robot:.
 - Video
