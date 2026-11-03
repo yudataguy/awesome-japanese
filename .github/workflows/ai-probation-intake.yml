@@ -1,0 +1,84 @@
+name: AI probation intake
+
+# Safety net for "Generative AI Probation" (contributing.md). After a push to
+# main changes readme.md, finds NEW items that landed outside the AI section
+# but belong in it:
+#   - the item carries :robot:, or
+#   - the merged PR's AI Assistance survey ticked "Mostly AI (>50%)" (the item
+#     gets :robot: added).
+# Moves them into the AI section, grouped under their section, and opens a PR
+# for a maintainer to merge (main requires a review, so it can't push there).
+#
+# The probation clock still counts from the original merge: the review
+# workflow reads each link's first appearance on main from git history.
+#
+# PRs opened with GITHUB_TOKEN don't trigger other workflows, so the
+# issue-first and template gates won't close this bot's PRs.
+
+on:
+  push:
+    branches: [main]
+    paths: [readme.md]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ai-probation-intake
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Check the merged PR's AI survey
+        id: survey
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+        run: |
+          body=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${SHA}/pulls" --jq '.[0].body // ""')
+          if grep -Eiq -- '- \[x\] Mostly AI' <<<"$body"; then
+            echo "flag=--mostly-ai" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Move new AI items into the AI section
+        id: intake
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          FLAG: ${{ steps.survey.outputs.flag }}
+        run: |
+          moved=$(node .github/scripts/ai-probation.mjs intake "$BEFORE" "$AFTER" $FLAG)
+          echo "$moved"
+          echo "count=$(jq length <<<"$moved")" >> "$GITHUB_OUTPUT"
+          {
+            echo "Merging this moves new generative AI items into the **AI** section for their probation (see [Generative AI Probation](../blob/main/contributing.md#generative-ai-probation)). They were merged in ${AFTER::7} outside it."
+            echo
+            jq -r '.[] | "- **\(.name)** (\(.url)) from **\(.section)**" + (if .hadRobot then "" else " — `:robot:` added because the PR survey said *Mostly AI (>50%)*" end)' <<<"$moved"
+            echo
+            echo "Probation counts from the original merge, so nothing is lost by merging this later. Close it if an item isn't actually generative AI."
+            echo
+            echo "_Opened automatically by the AI probation intake workflow._"
+          } > "$RUNNER_TEMP/body.md"
+
+      - name: Open a pull request
+        if: steps.intake.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AFTER: ${{ github.sha }}
+        run: |
+          branch="bot/ai-intake-${AFTER::7}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git commit -am "Move new generative AI items into the AI section"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "Move new generative AI items into the AI section" \
+            --body-file "$RUNNER_TEMP/body.md"

@@ -1,0 +1,88 @@
+name: AI probation choose section
+
+# Graduation PRs (opened by ai-probation-review.yml) list every readme section
+# as a checkbox. When a maintainer ticks a different one, this rebuilds the PR
+# branch from main so the item moves to the END of that section instead, and
+# updates the title and checkboxes to match. Ticking "Keep in the AI section"
+# closes the PR.
+#
+# Uses pull_request_target so it runs main's copy of the script, never code
+# from the PR branch. Only the bot's own bot/ai-graduate/* branches in this
+# repo are handled, and only edits by users with write access. Pushes made
+# with GITHUB_TOKEN don't trigger workflows, so the rebuild can't loop.
+
+on:
+  pull_request_target:
+    types: [edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ai-probation-choose-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  choose:
+    if: >-
+      github.event.changes.body &&
+      github.event.pull_request.state == 'open' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'bot/ai-graduate/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Apply the ticked section
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SENDER: ${{ github.event.sender.login }}
+          PR: ${{ github.event.pull_request.number }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+          BODY: ${{ github.event.pull_request.body }}
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          perm=$(gh api "repos/${GITHUB_REPOSITORY}/collaborators/${SENDER}/permission" --jq .permission || echo none)
+          case "$perm" in admin|maintain|write) ;; *) echo "$SENDER has $perm access; ignoring."; exit 0 ;; esac
+
+          printf '%s' "$BODY" > "$RUNNER_TEMP/body.md"
+          choice=$(node .github/scripts/ai-probation.mjs parse-choice < "$RUNNER_TEMP/body.md")
+          echo "$choice"
+          if [ "$choice" = "null" ]; then echo "No choices block; nothing to do."; exit 0; fi
+
+          url=$(jq -r .url <<<"$choice")
+          current=$(jq -r .current <<<"$choice")
+          picked=$(jq -r '.picked // ""' <<<"$choice")
+          name=$(sed -E 's/^Move (.+) out of the AI section( into .+)?$/\1/' <<<"$TITLE")
+
+          if [ "$(jq .ambiguous <<<"$choice")" = "true" ]; then
+            gh pr comment "$PR" --body "Please tick only **one** new box. Currently ticked: $(jq -r '.ticked | join(", ")' <<<"$choice"). The PR still moves the item to **$current**."
+            exit 0
+          fi
+          if [ -z "$picked" ]; then echo "No new choice; still moving to $current."; exit 0; fi
+
+          if [ "$picked" = "Keep in the AI section (closes this PR)" ]; then
+            gh pr close "$PR" --delete-branch --comment "Keeping **$name** in the AI section, as chosen by @$SENDER. This item won't get another graduation PR; move it later by hand if needed."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch -q origin main
+          git switch -q -C "$BRANCH" origin/main
+          if ! choices=$(node .github/scripts/ai-probation.mjs graduate "$url" --to "$picked" 2>"$RUNNER_TEMP/err"); then
+            gh pr comment "$PR" --body "Couldn't move the item to **$picked**: $(tail -1 "$RUNNER_TEMP/err")"
+            exit 1
+          fi
+          git commit -qam "Move $name out of the AI section into $picked"
+          git push -q -f origin "$BRANCH"
+
+          # Swap the old choices block for the new one, keeping the rest of the body.
+          CHOICES="$choices" node -e '
+            const fs = require("fs");
+            const f = process.argv[1];
+            const body = fs.readFileSync(f, "utf8");
+            fs.writeFileSync(f, body.replace(/<!-- ai-graduate [\s\S]*?<!-- \/choices -->/, () => process.env.CHOICES));
+          ' "$RUNNER_TEMP/body.md"
+          gh pr edit "$PR" --title "Move $name out of the AI section into $picked" --body-file "$RUNNER_TEMP/body.md"
