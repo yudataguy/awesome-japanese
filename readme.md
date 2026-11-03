@@ -342,6 +342,7 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 *New generative AI items are listed here first, grouped by the section they are meant for. After a 3 to 6 month probation they can move to that section. See the [contribution guidelines](contributing.md#generative-ai-probation).*
 
 - Vocabulary
+  - [Anki Miner](https://github.com/0xzerolight/anki_miner) - Desktop app for automated Anki vocabulary card creation from video, audio, manga and books :computer: :robot:.
   - [KaChiKa JA](https://kachika.app/) - AI photo-to-vocabulary app with example sentences and FSRS review; images stored on-device :iphone: :moneybag: :robot:.
   - [Onomanabi](https://onomanabi.take-lab.com/) - Onomatopoeia trainer with an animation for every word, native notes, and similar-word maps :iphone: :moneybag: :robot:.
   - [WaseiGo](https://waseigo.take-lab.com/) - 1,000+ wasei-eigo words that look like English but mean something else, with illustrated dialogues :iphone: :moneybag: :robot:.
