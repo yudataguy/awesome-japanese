@@ -1,0 +1,88 @@
+name: AI probation review
+
+# Weekly: finds items in the readme's AI section whose probation is over
+# (6 months since their link first reached main, never earlier than the AI
+# section's creation on 2026-09-23) and opens one PR per item that moves it to
+# its intended section. The PR body lists every section as a checkbox (the
+# intended one pre-ticked); ticking another rebuilds the PR to move the item
+# there instead (ai-probation-choose.yml). The maintainer decides:
+#   - merge  -> the item graduates to the end of the ticked section,
+#   - close (or tick "Keep") -> it stays in the AI section.
+# A closed PR is never reopened: a PR on the item's branch, in any state,
+# means it's been decided.
+
+on:
+  schedule:
+    - cron: "17 3 * * 1" # Mondays 03:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ai-probation-review
+  cancel-in-progress: false
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Open a PR for each item due to leave probation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          node .github/scripts/ai-probation.mjs due > "$RUNNER_TEMP/due.json"
+          jq -r '.[] | "\(.since)  \(.dueOn)  \(.due)  \(.name)"' "$RUNNER_TEMP/due.json"
+
+          jq -c '.[] | select(.due)' "$RUNNER_TEMP/due.json" | while read -r row; do
+            name=$(jq -r .name <<<"$row")
+            url=$(jq -r .url <<<"$row")
+            group=$(jq -r .group <<<"$row")
+            since=$(jq -r .since <<<"$row")
+            # Readme text is contributor-written: keep the branch name plain.
+            slug=$(tr '[:upper:]' '[:lower:]' <<<"$name" | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g' | cut -c1-40)
+            branch="bot/ai-graduate/${slug:-item}"
+
+            if [ "$(gh pr list --head "$branch" --state all --json number --jq length)" != "0" ]; then
+              echo "::notice::$name already has a graduation PR; skipping."
+              continue
+            fi
+
+            git switch -q -C "$branch" origin/main
+            choices=$(node .github/scripts/ai-probation.mjs graduate "$url")
+            git commit -qam "Move $name out of the AI section into $group"
+            git push -q -f origin "$branch"
+
+            status=$(curl -s -o /dev/null -L --max-time 20 -w '%{http_code}' "$url" || echo "no response")
+            {
+              echo "**$name** has been in the AI section since **$since**, 6 months of probation. Merging moves it to the end of the ticked section; closing keeps it in the AI section."
+              echo
+              echo "### Where should it go?"
+              echo
+              echo "The ticked section is where it's going now. To change it, tick another box (no need to untick the old one). The branch rebuilds itself within a minute to match (watch the title), then review the diff and merge."
+              echo
+              echo "$choices"
+              echo
+              echo "### Before merging"
+              echo
+              echo "- Link: $url (HTTP $status today)"
+              echo "- Before merging, check it still works as described, its pricing emoji is right, and there are no open reports against it."
+              echo "- To remove it from the list entirely, tick *Keep* (or close this PR) and remove the line in a separate PR."
+              echo
+              echo "See [Generative AI Probation](../blob/main/contributing.md#generative-ai-probation)."
+              echo
+              echo "_Opened automatically by the AI probation review workflow._"
+            } > "$RUNNER_TEMP/body.md"
+
+            gh pr create --base main --head "$branch" \
+              --title "Move $name out of the AI section into $group" \
+              --body-file "$RUNNER_TEMP/body.md"
+          done
