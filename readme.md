@@ -237,6 +237,8 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
   - [Bilingual News](http://bilingualnews.libsyn.com/) - Weekly bilingual English/Japanese news podcast with casual, unedited colloquial conversation :older_man:.
   - [Nihongo con Teppei](https://nihongoconteppei.com/) - Japanese podcast for beginners.
   - [After Hours｜アフターアワーズ](https://afterhours-e20.pages.dev/) - Two Japanese friends chat about real life in natural, unscripted Japanese. Great for immersion :man:.
+  - [Chorus](https://choruslab.app/) - Turn real podcasts into sentence-by-sentence shadowing lessons: word-level subtitles with furigana, AI sentence explanations, and record-and-compare speaking practice :iphone:
+
 
 ## Speaking
 
