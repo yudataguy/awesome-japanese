@@ -353,6 +353,8 @@ The natural successor to beginner textbooks like Genki, Quartet develops all fou
 - Video
   - [mLearn](https://mlearn.kikan.net) - Language immersion app with interactive subtitles, OCR, sentence mining, and SRS :computer: :robot:.
   - [tanku Anime](https://github.com/DanielDcool/tankuanime) - Self-hosted player that hides subtitles until you pause; JMdict lookup, AI breakdown, Anki export :computer: :jp: :robot:.
+- Dictionary
+  - [RomajiDesu](https://www.romajidesu.com) - Japanese dictionary and translator with romaji, furigana, kanji family trees and flashcards :robot:.
 - Software
   - [Kanigo](https://www.kanigo.ai) - Japanese video and sentence breakdown from YouTube, uploads, or pasted text :moneybag: :robot:.
 
